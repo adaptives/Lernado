@@ -1,0 +1,25 @@
+{% extends "course_main.html" %}
+
+{% block course_content %}
+<div>
+    {% for participant in course.users.all %}
+    	<div>
+    		<div>
+    			<img height="32" width="32" src="{% url lernado.accounts.views.profile_pic user_id=participant.id %}">
+    		</div>
+    		<div>
+	    		{% if participant.first_name or participant.last_name %}
+	    			<a href="{% url lernado.accounts.views.view_profile user_id=participant.id %}">
+	    				{{participant.first_name}} {{participant.last_name}}
+	    			</a>
+	    		{% else %}
+	    			<a href="{% url lernado.accounts.views.view_profile user_id=participant.id %}">
+	    				{{participant.username}}
+	    			</a>
+	    		{% endif %}
+    		</div>
+    		<div>&nbsp;</div>
+    	</div>
+    {% endfor %}
+</div>
+{% endblock %}

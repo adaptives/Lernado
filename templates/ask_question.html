@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+{% load markup %}
+
+<form action="{% url lernado.views.ask_question course_id=course.id%}" method="POST">
+{% csrf_token %}
+<div class="wmd-panel">
+<div>
+<span class="question-title">Title:</span>   {{ question_form.title }}
+</div>
+<div>
+    <div id="wmd-button-bar"></div>
+    {{ question_form.contents }}
+</div>
+<div>
+    <input type="submit" name="submit" value="submit" />
+</div>
+<div id="wmd-preview" class="wmd-preview"></div>
+</div>
+</form>
+
+<script type="text/javascript">
+    (function () {
+        var converter = Markdown.getSanitizingConverter();
+        var editor = new Markdown.Editor(converter)
+        editor.run()
+    })();
+</script>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if user.id == user_profile.user.id %}
+<a href="/accounts/{{user_profile.user.id}}/editprofile/">edit</a>
+{% endif %}
+
+<p><img src="/accounts/{{user_profile.user.id}}/pic/"></p>
+<p>{{user_profile.user.first_name}} {{user_profile.user.last_name}}, {{user_profile.location}}</p>
+<p>Logged in last on {{user_profile.user.last_login|date:"D d M Y"}}</p>
+
+{% endblock %}
+

@@ -1,0 +1,47 @@
+{% extends "course_main.html" %}
+{% load markup %}
+{% load custom_humanize %}
+{% block course_content %}
+
+<div class="course-description">
+    {{ course.contents|markdown }}
+</div>
+
+<div class="course-sections">
+<div class="course-sections-title">This course contains the following activities</div>
+{% for activity in activities %}
+	<div class="course-section-link">
+    	<a href="{% url lernado.views.activity course_id=course.id activity_id=activity.id %}">{{ activity.title }}</a>
+    </div>
+{% endfor %}
+</div>
+<div style="margin-top: 30px;" class="course-sections-title">Course Forum - <a href="{% url lernado.views.ask_question course_id=course.id%}">Ask Question</a></div>
+<div id="forum">
+	{% for question in questions %}
+		<div class="short-summary">
+			<div class="counts">
+		        <div class="votes">
+		            <div class="item-count">{{question.likes}}</div>
+		            <div>likes</div>
+		        </div>
+		        <div class="status  answered">
+		            <div class="item-count">{{question.answer_count}}</div>
+		            <div>answers</div>
+		        </div>
+	    	</div>
+		
+			<div class="question-summary-wrapper">
+		        <h2><a href="{% url lernado.views.question course_id=course.id question_id=question.id%}" title="the question">{{ question.title }}</a></h2>
+		        <div class="userinfo">
+		            <span class="relativetime" title="the actual time">posted about <span style="font-style: italic;">{{ question.when|natural_time }}</span> ago</span>
+		            by <a href="{% url lernado.accounts.views.view_profile user_id=question.user.id %}">{{ question.user.username }}</a><span class="score" title="2410 karma"></span>		
+		        </div>				        
+	    	</div>
+		</div>
+	{% endfor %}
+
+</div>
+
+<div style="clear: both;"></div>
+{% endblock %}
+

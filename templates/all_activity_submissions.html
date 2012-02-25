@@ -1,0 +1,20 @@
+{% extends "course_main.html" %}
+
+{% block course_content %}
+<div style="font-size: 110%">
+	{% for activity_responses in activity_and_responses %}
+	<div style="margin-top: 10px;">
+		<div style="font-weight: bold;">{{activity_responses.activity.title}}</div>
+		<div style="margin-left: 10px;">
+		{% for response in activity_responses.responses %}
+			<div>
+				<img height="16" width="16" src="{% url lernado.accounts.views.profile_pic user_id=response.user.id %}" >
+				<a href="{% url lernado.views.activity_response course_id=course.id activity_id=response.activity.id activity_response_id=response.id%}">activity response</a> by 
+				<a href="{% url lernado.accounts.views.view_profile user_id=response.user.id%}">{{response.user.username}}</a>
+			</div>
+		{% endfor %}
+		</div>
+	</div>
+	{% endfor %}
+</div>
+{% endblock %}

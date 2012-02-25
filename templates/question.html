@@ -1,0 +1,172 @@
+{% extends "course_main.html" %}
+{% load markup %}
+{% load custom_humanize %}
+
+{% block course_content %}
+
+
+<div>
+	<div class="headNormal">
+		<!-- Change this # ref to the url of the question -->
+    	<h2><a href="#">{{ question.title }}</a></h2>
+	</div>
+		<table style="width:100%;" id="question-table" >
+			<tr>
+		    	<td style="width:30px;vertical-align:top">
+		        	<div class="vote-buttons">
+		        		{% if can_vote %}
+						<a id="upvote-question-1"  
+						   title="I like this question"
+		    			   class="post"
+		     			   href="{% url lernado.views.like_question course_id=course.id question_id=question.id %}" rel="nofollow">
+		     					<img src="/static/images/vote-arrow-up-on.png"
+						             alt="voteup image" height="24" width="24"
+						             border="0">
+		     			</a>
+						{% else %}
+							<img src="/static/images/vote-arrow-up.png"
+						         alt="voteup image" height="24" width="24"
+						         border="0">
+						{% endif %}
+						<div id="question-1-score" class="post-score" title="current number of votes">
+		    				{{question.likes}}
+						</div>		
+		            </div>		            
+		         </td>
+		         
+				 <td>
+		         	<div id="item-right">		
+		            	<div class="question-body">
+		                	{{ question.contents|markdown }}
+		                </div>		            
+		                
+		                <div id="question-controls" class="post-controls">                            
+		                </div>
+		                
+		                <div class="post-update-info-container">                                    	
+							<div class='post-update-info post-update-info-user'>
+			    				<p style="line-height:12px;">
+			        				<span>posted about <span style="font-weight: bold; font-style: italic;">{{question.when|natural_time}} ago</span> ago</span>
+			    				</p>
+			    				<img class="gravatar" width="32" height="32" src="{% url lernado.accounts.views.profile_pic user_id=question.user.id %}" alt="{{ question.user.username }}" />
+			    				<p>
+			    					<a href="{% url lernado.accounts.views.view_profile user_id=question.user.id %}">{{ question.user.username }}</a><br/>			    					
+			    				</p>
+			    				<p>			    					
+			    					<a href="#">edit</a>			    					
+			    				</p>
+							</div>
+		                </div>
+		        	</div>
+		                        
+				</td>
+			</tr>
+		</table>
+	
+</div>
+
+<div class="tabBar">
+	<a name="sort-top"></a>
+	<div class="headQuestions">{{question.answer_count}} Answers:</div>
+</div>
+
+<div>
+	{% for answer in answers %}
+		<div id="answer-container-${theAnswer.id}" class="answer ">
+		<table style="width: 100%;">
+			<tbody>
+				<tr>
+					<td style="width: 50px; vertical-align: top;">
+						<div class="vote-buttons">
+
+						<a id="upvote-answer-1" class="post" href="#"> <img src="/static/images/vote-arrow-up-on.png"
+						   alt="voteup image" height="24" width="24"
+						   border="0">
+						</a>
+						<div id="answer-votes-1" class="post-score"
+							 title="current number of votes">5</div>
+						</div>
+					</td>
+					<td>
+						<div class="item-right">
+							<div class="answer-body">
+								<p>
+									{{ answer.contents|markdown }}
+								</p>
+							</div>
+							<div class="answer-controls post-controls">
+								<!-- todo for later 
+								<span class="action-link"><a rel="nofollow"
+									title="answer permanent link" class="ajax-command withprompt "
+									href="http://meta.osqa.net/answer_link/8821/">link</a>
+								</span>
+								-->
+
+							</div>
+							<div class="post-update-info-container">
+
+								<div class="post-update-info post-update-info-user">
+									<p style="line-height: 12px;">
+										<span>posted about <span style="font-weight: bold; font-style: italic;">{{answer.when|natural_time}} ago</span> ago</span>
+									</p>
+									<img class="gravatar" src="{% url lernado.accounts.views.profile_pic user_id=answer.user.id %}"
+										alt="{{answer.user.username}}" height="32" width="32">
+									<p>
+										<a href="{% url lernado.accounts.views.view_profile user_id=answer.user.id %}">
+											{{answer.user.username}}
+										</a>
+										<br> 
+										<!-- todo for later 
+										<span class="score" title="91 karma">91</span><span
+											title="2 badges"><span class="silver">●</span><span
+											class="badgecount">2</span>
+										</span><span title="4 badges"><span class="bronze">●</span><span
+											class="badgecount">4</span>
+										</span>
+										-->																			
+										<div>
+											<a href="#">edit</a>
+										</div>
+									</p>
+								</div>
+
+							</div>
+
+							<!-- todo later
+							<div id="comment-tools-8821" class="comment-tools"></div>
+							<div id="comment-8821-form-container" class="comment-form-container"></div>
+							-->
+
+						</div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	{% endfor %}
+</div>
+	
+<div id="answer-form" class="section-question-form">
+	<form action="{% url lernado.views.question course_id=course.id question_id=question.id %}" method="POST">
+		{% csrf_token %}
+		<div class="wmd-panel">			
+			<div>
+			    <div id="wmd-button-bar"></div>
+			    {{ answer_form.contents }}
+			</div>
+			<div>
+			    <input type="submit" name="submit" value="submit" />
+			</div>
+			<div id="wmd-preview" class="wmd-preview"></div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+    (function () {
+        var converter = Markdown.getSanitizingConverter();
+        var editor = new Markdown.Editor(converter)
+        editor.run()
+    })();
+</script>
+
+{% endblock %}

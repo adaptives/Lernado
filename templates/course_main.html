@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="course-title">{{course.title}}</div>
+
+<div class="mainsubnav">
+	<div class="subnav mainnavs">
+	<ul>
+		<li><a class="" href="{% url lernado.views.course course_id=course.id %}">Course Home</a></li>
+		<li><a class="" href="{% url lernado.views.course_participants course_id=course.id %}">Participants</a></li>
+		<li><a class="" href="{% url lernado.views.all_activity_submissions course_id=course.id %}">Activity Submissions</a></li>
+	</ul>
+	</div>
+</div>
+
+{% block course_content %}{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,17 @@
+1. The title should change according to the selected course
+3. Add the favicon image
+4. Add footer content
+5. Add proper url for contact in the header menu
+6. Add highlighting for the selected main menu item
+7. Add title to the Question link 
+8. Add time asked to the Question link
+9. Add a proper id to upvote question
+10. Display the real number of likes fro a question
+11. Show when the question was asked on the actual question page
+12. Link to user profile on the actual Question page
+14. Editing of a question should be conditional
+15. The vote-up image for Question should change when a user has already voted up a question
+16. Add a help link to each markdown textarea
+17. Only courses for a learning group should be shown
+18. Allow participants to register for the course
+19. Allow participants to drop a course

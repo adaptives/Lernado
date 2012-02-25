@@ -1,0 +1,116 @@
+{% extends "course_main.html" %}
+{% load markup %}
+{% load custom_humanize %}
+{% block course_content %}
+
+<div>
+	<div class="headNormal">
+		<!-- Change this # ref to the url of the question -->
+		<h2>Response for <a href="{% url lernado.views.activity course_id=course.id activity_id=activity.id %}">{{ activity.title }}</a> by {{activity_response.user.username}}</h2>
+	</div>
+	
+	<table style="width:100%;" id="question-table" >
+		<tr>	         
+			 <td>
+	         	<div id="item-right">		
+	            	<div class="question-body">
+	                	{{ activity_response.contents|markdown }}
+	                </div>		            
+	                
+	                <div class="post-update-info-container">                                    	
+						<div class='post-update-info post-update-info-user'>
+		    				<p style="line-height:12px;">
+		    					<span>posted <span style="font-weight: bold; font-style: italic;">{{ activity_response.when|natural_time }}</span> ago</span>
+		    				</p>
+		    				<img class="gravatar" width="32" height="32" src="/static/images/default_course_image.gif" alt="{{ activity_response.user.username }}" />
+		    				<p>
+		    					<a href="{% url lernado.accounts.views.view_profile user_id=activity_response.user.id %}">{{ activity_response.user.username }}</a><br/>			    					
+		    				</p>
+		    				<p>			    					
+		    					<a href="#">edit</a>			    					
+		    				</p>
+						</div>
+	                </div>
+	        	</div>
+	                        
+			</td>
+		</tr>
+	</table>
+		
+</div>
+
+
+<div>
+<div class="headNormal" style="margin-top: 30px;">Reviews</div>
+<div>
+{% for activity_response_review in activity_response_reviews %}
+	<div id="answer-container-${theAnswer.id}" class="answer ">
+		<table style="width: 100%;">
+			<tbody>
+				<tr>
+					<td>
+						<div class="item-right">
+							<div class="answer-body">
+								<p>
+									{{ activity_response_review.contents|markdown }}
+								</p>
+							</div>
+							<div class="post-update-info-container">
+
+								<div class="post-update-info post-update-info-user">
+									<p style="line-height: 12px;">
+										<span>posted <span style="font-weight: bold; font-style: italic;">{{ activity_response_review.when|natural_time }}</span> ago</span>
+									</p>
+									<img class="gravatar" src="/static/images/default_course_image.gif"
+										alt="{{activity_response_review.user.username}}" height="32" width="32">
+									<p>
+										<a href="{% url lernado.accounts.views.view_profile user_id=activity_response_review.user.id %}">
+											{{activity_response_review.user.username}}
+										</a>
+										<br> 
+										<div>
+											<a href="#">edit</a>
+										</div>
+									</p>
+								</div>
+							</div>
+						</div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+{% endfor %}
+</div>
+
+<div class="headNormal" style="margin-top: 30px;">Help your co-learner by submitting your review to their activity response</div>
+
+<form action="{% url lernado.views.activity_response course_id=course.id activity_id=activity.id activity_response_id=activity_response.id %}" method="POST">
+{% csrf_token %}
+<div class="wmd-panel">
+<div class="error">
+{% for content_error in activity_response_review_form.contents.errors %}
+    <div>{{ content_error }}</div>
+{% endfor %}
+</div>
+
+<div>
+    <div id="wmd-button-bar"></div>
+    {{ activity_response_review_form.contents }}
+</div>
+<div>
+    <input type="submit" name="submit" value="submit" />
+</div>
+<div id="wmd-preview" class="wmd-preview"></div>
+</div>
+</form>
+</div>
+
+<script type="text/javascript">
+    (function () {
+        var converter = Markdown.getSanitizingConverter();
+        var editor = new Markdown.Editor(converter)
+        editor.run()
+    })();
+</script>
+{% endblock %}
+

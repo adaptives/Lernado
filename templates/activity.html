@@ -1,0 +1,55 @@
+{% extends "course_main.html" %}
+{% load markup %}
+{% load custom_humanize %}
+{% block course_content %}
+<div class="headNormal">
+	<!-- Change this # ref to the url of the question -->
+	<h2><a href="#">{{ activity.title }}</a></h2>
+</div>
+
+<div id="item-right">		
+	<div class="question-body">
+    	{{ activity.contents|markdown }}
+    </div>
+</div>
+<div class="headNormal">Submit your response</div>
+<div>
+<form action="{% url lernado.views.activity course_id=course.id activity_id=activity.id %}" method="POST">
+{% csrf_token %}
+<div class="wmd-panel">
+<div class="error">
+{% for content_error in activity_form.contents.errors %}
+    <div>{{ content_error }}</div>
+{% endfor %}
+</div>
+<div>
+    <div id="wmd-button-bar"></div>
+    {{ activity_form.contents }}
+</div>
+<div>
+    <input type="submit" name="submit" value="submit" />
+</div>
+<div id="wmd-preview" class="wmd-preview"></div>
+</div>
+</form>
+</div>
+<div class="headNormal" style="margin-top: 30px;">Responses submitted by other participants</div>
+<div id="responses">
+	{% for activity_response in activity_responses %}
+		<div>
+			<img height="16" width="16" src="{% url lernado.accounts.views.profile_pic user_id=activity_response.user.id %}">
+			<span style="margin-left: 4px;">
+				<a href="{% url lernado.views.activity_response course_id=course.id activity_id=activity.id activity_response_id=activity_response.id %}">Response for activity '{{activity_response.activity.title}}' </a> submitted by <a href="{% url lernado.accounts.views.view_profile user_id=activity_response.user.id %}">{{activity_response.user.username}}</a> about {{activity_response.when|natural_time}} ago
+			</span>
+		</div>
+	{% endfor %}
+</div>
+<script type="text/javascript">
+    (function () {
+        var converter = Markdown.getSanitizingConverter();
+        var editor = new Markdown.Editor(converter)
+        editor.run()
+    })();
+</script>
+{% endblock %}
+

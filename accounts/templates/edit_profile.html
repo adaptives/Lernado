@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+	<form action="" method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	<p>
+		<div>Location</div>
+		<div> 
+		{{ profile_form.location }}
+		</div>
+	</p>
+	<p>
+		<div>
+			<div>Profile Picture</div>
+			<div><img src="/accounts/{{user_profile.user.id}}/pic/"></div>
+		</div>
+		<div> 
+		{{ profile_form.profile_picture}}
+		</div>
+	</p>
+	<p>
+		<input type="submit" name="submit" value="submit">
+	</p>
+	</form>
+</div>
+{% endblock %}
+
