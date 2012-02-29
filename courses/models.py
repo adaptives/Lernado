@@ -70,7 +70,8 @@ class Question(models.Model):
     contents = models.TextField()
     
     def can_be_liked(self, user):
-        return self.user != user
+        question_already_liked = QuestionLike.objects.filter(user__id=user.id, question__id=self.id)
+        return self.user != user and not question_already_liked
         
     def likes(self):
         return QuestionLike.objects.filter(question=self).count()
@@ -105,7 +106,11 @@ class Answer(models.Model):
     contents = models.TextField()
 
     def can_be_liked(self, user):
-        return self.user != user
+        answer_already_liked = AnswerLike.objects.filter(user__id=user.id, answer__id=self.id)
+        return self.user != user and not answer_already_liked
+    
+    def likes(self):
+        return AnswerLike.objects.filter(answer=self).count()
     
     def __unicode__(self):
         return self.question.title

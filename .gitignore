@@ -1,4 +1,6 @@
 *.pyc
 .pydevproject
+deployment_settings.py
+
 
 

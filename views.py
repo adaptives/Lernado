@@ -73,8 +73,7 @@ def question(request, course_id, question_id):
     else:
         raise Http404
     
-    can_vote = question.user != request.user
-    ctx = {'course': course, 'question': question, 'can_vote': can_vote, 'answers': answers, 'answer_form': answer_form}
+    ctx = {'course': course, 'question': question, 'answers': answers, 'answer_form': answer_form}
     return render_to_response('question.html', RequestContext(request, ctx))
 
 @login_required
@@ -115,14 +114,17 @@ def like_question(request, course_id, question_id):
 
 @login_required
 def like_answer(request, course_id, question_id, answer_id):
+    print "attempting to like the answer"
     course = Course.objects.get(id=course_id)
     question = Question.objects.get(id=question_id)
     answer = Answer.objects.get(id=answer_id)
-    if not answer.user == request.user:    
+    if not answer.user == request.user:
+        print "Being liked by a valid user"   
         try:
             alread_liked = AnswerLike.objects.get(user__id=request.user.id, answer__id=question.id)
         except ObjectDoesNotExist:
-            answer_like = AnswerLike(user=request.user, answer=question)
+            print "liking the answer"
+            answer_like = AnswerLike(user=request.user, answer=answer)
             answer_like.save()
     
     return HttpResponseRedirect(reverse('lernado.views.question', kwargs={'course_id':course.id, 'question_id':question.id}))

@@ -14,20 +14,7 @@
 			<tr>
 		    	<td style="width:30px;vertical-align:top">
 		        	<div class="vote-buttons">
-		        		{% if can_vote %}
-						<a id="upvote-question-1"  
-						   title="I like this question"
-		    			   class="post"
-		     			   href="{% url lernado.views.like_question course_id=course.id question_id=question.id %}" rel="nofollow">
-		     					<img src="/static/images/vote-arrow-up-on.png"
-						             alt="voteup image" height="24" width="24"
-						             border="0">
-		     			</a>
-						{% else %}
-							<img src="/static/images/vote-arrow-up.png"
-						         alt="voteup image" height="24" width="24"
-						         border="0">
-						{% endif %}
+		        	    {% question_like user question %}		        		
 						<div id="question-1-score" class="post-score" title="current number of votes">
 		    				{{question.likes}}
 						</div>		
@@ -79,12 +66,9 @@
 					<td style="width: 50px; vertical-align: top;">
 						<div class="vote-buttons">
 
-						<a id="upvote-answer-1" class="post" href="#"> <img src="/static/images/vote-arrow-up-on.png"
-						   alt="voteup image" height="24" width="24"
-						   border="0">
-						</a>
+						{% answer_like user answer %}
 						<div id="answer-votes-1" class="post-score"
-							 title="current number of votes">5</div>
+							 title="current number of votes">{{answer.likes}}</div>
 						</div>
 					</td>
 					<td>
