@@ -31,7 +31,8 @@ def edit_profile(request, user_id):
             return render_to_response('edit_profile.html', RequestContext(request, ctx))
         elif request.method == 'POST':
             profile_form = forms.ProfileForm(request.POST, request.FILES)
-            if profile_form.is_valid():            
+            if profile_form.is_valid():
+                print 'valid... processing'            
                 user_profile.location = request.POST['location']
                 user_profile.profile_picture = request.FILES['profile_picture']
                 user_profile.save()
@@ -46,8 +47,13 @@ def edit_profile(request, user_id):
     
 def profile_pic(request, user_id):
     user = User.objects.get(id=user_id)
-    user_profile = models.UserProfile.objects.get(user=user) 
-    fpath = settings.__getattr__('MEDIA_ROOT') + user_profile.profile_picture.url
+    user_profile = models.UserProfile.objects.get(user=user)
+ 
+    if user_profile.profile_picture:
+        fpath = settings.__getattr__('MEDIA_ROOT') + user_profile.profile_picture.url
+    else:
+        fpath = settings.DEFAULT_PERSON_IMAGE 
+    
     content = open(fpath, "rb")
     # content can be a String or an iterable
     return HttpResponse(content, mimetype=mimetypes.guess_type(fpath))

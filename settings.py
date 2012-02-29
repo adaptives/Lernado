@@ -80,10 +80,12 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    ('js','/home/pshah/workspace/wwald/lernado/staticfiles/js'),
-    ('css','/home/pshah/workspace/wwald/lernado/staticfiles/css'),
-    ('images','/home/pshah/workspace/wwald/lernado/staticfiles/images'),
+    ('js',os.path.join(os.path.dirname(__file__), 'staticfiles/js').replace('\\','/')),
+    ('css',os.path.join(os.path.dirname(__file__), 'staticfiles/css').replace('\\','/')),
+    ('images',os.path.join(os.path.dirname(__file__), 'staticfiles/images').replace('\\','/')),
 )
+
+DEFAULT_PERSON_IMAGE = os.path.join(os.path.dirname(__file__), 'staticfiles/images/default_person.jpg').replace('\\','/')
 
 # List of finder classes that know how to find static files in
 # various locations.
