@@ -1,42 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="courses">
+<div class="home">
 
-	<div style="margin-left: 5px; margin-bottom: 10px;">
-		<span style="padding-bottom: 4px; font-family: Comic Sans, Comic Sans MS; font-size: 1.4em; font-weight: bold; color: green;">Online Courses to Whet Your Learning Appetite !</span>
-	</div>
-	
-	<ul>
-	{% for course in courses %}
-		<div class="post-box"></div>
-		<div class="comentwrap">
-			<div class="grid">
-			 	<a href="{% url lernado.views.course course_id=course.id%}">
-			 		<img src="/static/images/default_course_image.gif" border="0" width="40" height="40" />
-			 	</a>
-			 </div>
-			 <div class="comentwrappost-title"> 
-			 	<a href="{% url lernado.views.course course_id=course.id %}">{{course.title}}</a>			 	
-			 </div>
-			 <div class="comentwrappost-datetime"> 
-			 <div>
-			 	{% if course.start_date and course.end_date %}
-			 		Starting {{course.start_date}} - Ending {{course.end_date}}
-			 	{% endif %}
-			 	</div>
-			 </div>
-			 <div class="comentwrappost-course"> 
-			 	
-			 </div>
-			 <div align="center" class="pepcomentwrap">
-				 <div class="pep"><img src="/static/images/people.png" border="0" width="20" height="17" /></div>
-				 <div class="peptext">{{course.users.count}}</div>
-			 </div>
-		</div>
-		
-		
-	{% endfor %}
-	</ul>
+This is the home page
 
 </div>
 {% endblock %}

@@ -9,6 +9,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     ('^$', views.home),
+    ('^courses/$', views.courses),
     ('^accounts/login/$', login),
     ('^accounts/logout/$', logout),
     ('^accounts/(?P<user_id>\d+)/pic/$', account_views.profile_pic),
@@ -24,6 +25,7 @@ urlpatterns = patterns('',
     (r'^course/(?P<course_id>\d+)/askquestion/$', views.ask_question),
     (r'^course/(?P<course_id>\d+)/activity/(?P<activity_id>\d+)/$', views.activity),
     (r'^course/(?P<course_id>\d+)/activity/(?P<activity_id>\d+)/response/(?P<activity_response_id>\d+)/$', views.activity_response),
+    ('^page/(?P<page>.+)/$', views.page),
     # Examples:
     # url(r'^$', 'lernado.views.home', name='home'),
     # url(r'^lernado/', include('lernado.foo.urls')),

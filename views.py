@@ -18,6 +18,7 @@ from lernado.courses.models import ActivityResponseVisit
 from lernado.courses.models import ActivityResponseReview
 import lernado.forms as forms
 from django.template import RequestContext
+from django.contrib.flatpages.views import flatpage
 import datetime
 import logging
 
@@ -25,9 +26,13 @@ logger = logging.getLogger(__name__)
 
 @login_required
 def home(request):
+    return render_to_response('home.html', RequestContext(request))
+
+@login_required
+def courses(request):
     courses = Course.objects.all()
     ctx = {'courses':courses}
-    return render_to_response('home.html', RequestContext(request, ctx))
+    return render_to_response('courses.html', RequestContext(request, ctx))
 
 @login_required
 def course(request, course_id):
@@ -46,7 +51,7 @@ def course_participants(request, course_id):
     return render_to_response('participants.html', RequestContext(request, ctx))
 
 @login_required
-def course_page(request, course_id, page_id): 
+def course_page(request, course_id, page_id):
     course = Course.objects.get(id=course_id)
     page = CoursePage.objects.get(id=page_id)
     # verify that this page belongs to this course
@@ -196,3 +201,7 @@ def all_activity_submissions(request, course_id):
         activity_and_responses.append({'activity': activity, 'responses': responses})
     ctx = {'course': course, 'activity_and_responses': activity_and_responses}
     return render_to_response('all_activity_submissions.html', RequestContext(request, ctx))
+
+@login_required
+def page(request, page):
+    return flatpage(request, '/page/faq/')
