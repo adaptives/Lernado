@@ -2,7 +2,12 @@
 {% block content %}
 
 {% if user.id == user_profile.user.id %}
+<div>
+<a href="{% url django.contrib.auth.views.password_change %}">Change password</a>
+</div>
+<div>
 <a href="/accounts/{{user_profile.user.id}}/editprofile/">edit</a>
+</div>
 {% endif %}
 
 <p><img src="/accounts/{{user_profile.user.id}}/pic/"></p>

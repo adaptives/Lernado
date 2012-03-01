@@ -25,7 +25,7 @@ urlpatterns = patterns('',
     (r'^course/(?P<course_id>\d+)/askquestion/$', views.ask_question),
     (r'^course/(?P<course_id>\d+)/activity/(?P<activity_id>\d+)/$', views.activity),
     (r'^course/(?P<course_id>\d+)/activity/(?P<activity_id>\d+)/response/(?P<activity_response_id>\d+)/$', views.activity_response),
-    ('^page/(?P<page>.+)/$', views.page),
+    (r'^page/(?P<page>.+)/$', views.page),
     # Examples:
     # url(r'^$', 'lernado.views.home', name='home'),
     # url(r'^lernado/', include('lernado.foo.urls')),
@@ -34,5 +34,8 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
+    (r'password/done/$', 'django.contrib.auth.views.password_change_done'),
+    (r'^password/change/$','django.contrib.auth.views.password_change'),
     url(r'^admin/', include(admin.site.urls)),
+    
 )
