@@ -61,7 +61,7 @@
 									<p style="line-height: 12px;">
 										<span>posted <span style="font-weight: bold; font-style: italic;">{{ activity_response_review.when|natural_time }}</span> ago</span>
 									</p>
-									<img class="gravatar" src="/static/images/default_course_image.gif"
+									<img class="gravatar" src="{% url lernado.accounts.views.profile_pic user_id=activity_response_review.user.id %}"
 										alt="{{activity_response_review.user.username}}" height="32" width="32">
 									<p>
 										<a href="{% url lernado.accounts.views.view_profile user_id=activity_response_review.user.id %}">
