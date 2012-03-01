@@ -19,6 +19,7 @@ from lernado.courses.models import ActivityResponseReview
 import lernado.forms as forms
 from django.template import RequestContext
 from django.contrib.flatpages.views import flatpage
+from django.contrib.flatpages.models import FlatPage
 import datetime
 import logging
 
@@ -26,7 +27,11 @@ logger = logging.getLogger(__name__)
 
 @login_required
 def home(request):
-    return render_to_response('home.html', RequestContext(request))
+    flat_pages = FlatPage.objects.filter(url='/home/')
+    ctx = {}
+    if flat_pages:
+        ctx = {'content': flat_pages[0].content}
+    return render_to_response('home.html', RequestContext(request, ctx))
 
 @login_required
 def courses(request):
