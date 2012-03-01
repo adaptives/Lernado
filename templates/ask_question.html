@@ -1,5 +1,6 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "course_main.html" %}
+{% block course_home_submenu %}submenu-item-selected{%endblock%}
+{% block course_content %}
 {% load markup %}
 
 <form action="{% url lernado.views.ask_question course_id=course.id%}" method="POST">

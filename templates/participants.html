@@ -1,5 +1,5 @@
 {% extends "course_main.html" %}
-
+{% block course_participants_submenu %}submenu-item-selected{%endblock%}
 {% block course_content %}
 <div>
     {% for participant in course.users.all %}
