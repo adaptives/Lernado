@@ -209,4 +209,4 @@ def all_activity_submissions(request, course_id):
 
 @login_required
 def page(request, page):
-    return flatpage(request, '/page/faq/')
+    return flatpage(request, '/page/%s/' % page)

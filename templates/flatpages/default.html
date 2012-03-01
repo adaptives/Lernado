@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load markup %}
 {% block content %}
 <div style="font-size: 130%">
-{{ flatpage.content }}
+{{ flatpage.content|markdown }}
 </div>
 {% endblock %}
