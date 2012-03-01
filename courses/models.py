@@ -21,7 +21,12 @@ class Course(models.Model):
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
+    completed_by = models.ManyToManyField(User, related_name='course_completed_by', blank=True)
     
+    def has_completed(self, user):
+        completed = Course.objects.filter(users__id=user.id)
+        return completed and True
+        
     def is_enrolled(self, user):
         enrolled_course = Course.objects.filter(users__id=user.id, id=self.id)        
         return enrolled_course and True or False
@@ -181,4 +186,5 @@ class Credit(models.Model):
     when = models.DateTimeField(default=datetime.datetime.now)
     mname = models.CharField(max_length=256, blank=True)
     mid = models.BigIntegerField(default=0)
+    
     
