@@ -37,6 +37,9 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     (r'password/done/$', 'django.contrib.auth.views.password_change_done'),
     (r'^password/change/$','django.contrib.auth.views.password_change'),
+    (r'^password/reset/$','django.contrib.auth.views.password_reset'),
+    (r'^password/reset/done/$','django.contrib.auth.views.password_reset_done'),
+    (r'^reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm', {'template_name' : 'registration/password_reset.html',  'post_reset_redirect': '/accounts/logout/' }),
     url(r'^admin/', include(admin.site.urls)),
     
 )

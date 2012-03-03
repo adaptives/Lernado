@@ -29,5 +29,7 @@
 	    <input type="hidden" name="next" value="{{ next|escape }}" />
 	   </p>
   </form>
-
+  <div>
+  	<span>Forgot your password ? </span><a href="{% url django.contrib.auth.views.password_reset %}">reset</a>
+  </div>
 {% endblock %}
