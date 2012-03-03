@@ -40,7 +40,7 @@
 			    					<a href="{% url lernado.accounts.views.view_profile user_id=question.user.id %}">{{ question.user.username }}</a><br/>			    					
 			    				</p>
 			    				<p>			    					
-			    					<a href="#">edit</a>			    					
+			    					<a href="{% url lernado.views.edit_question course_id=course.id question_id=question.id %}">edit</a>			    					
 			    				</p>
 							</div>
 		                </div>

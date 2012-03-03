@@ -109,6 +109,30 @@ def ask_question(request, course_id):
         raise Http404
 
 @login_required
+def edit_question(request, course_id, question_id):
+    course = Course.objects.get(id=course_id)
+    question = Question.objects.get(id=question_id)
+
+    if request.method == 'GET':        
+        question_form = forms.QuestionForm({'title': question.title, 'contents': question.contents})
+        ctx = {'course': course, 'question_id': question.id, 'question_form': question_form}
+        return render_to_response('edit_question.html', RequestContext(request, ctx))
+    elif request.method == 'POST':
+        question_form = forms.QuestionForm(request.POST)
+        if question_form.is_valid():
+            cd = question_form.cleaned_data
+            question.title  = cd['title']
+            question.contents = cd['contents']
+            question.save()
+            return HttpResponseRedirect('/course/%d/question/%d/' % (course.id, question.id))
+        else:
+            ctx = {'course': course, 'question_form': question_form}
+            return render_to_response('edit_question.html', RequestContext(request, ctx))
+    else:
+        raise Http404
+   
+
+@login_required
 def like_question(request, course_id, question_id):
     course = Course.objects.get(id=course_id)
     question = Question.objects.get(id=question_id)
