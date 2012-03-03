@@ -48,6 +48,11 @@
 						<span><a style="color: red; font-family: Comic Sans, Comic Sans MS;" href="/accounts/logout">logout();</a></span>
 					</div>
 				{% endif %}
+				{% for sidebar_widget in sidebar_widgets %}
+					<div style="margin-top: 15px;">
+					{{sidebar_widget.contents|safe}}
+					</div>
+				{% endfor %}
 			</div>
 		</div> <!-- end sidebar -->
 	</div> <!-- end container -->

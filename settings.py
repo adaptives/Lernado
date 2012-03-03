@@ -109,6 +109,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.request',
     'django.core.context_processors.auth',
+    'lernado.custom_context_processors.sidebar_widgets',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -131,6 +132,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'lernado.metaapp',
     'lernado.courses',
     'lernado.accounts',
     'django.contrib.auth',
