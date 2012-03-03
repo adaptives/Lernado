@@ -25,6 +25,7 @@ else:
             'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
         }
     }
+    DEFAULT_FROM_EMAIL = 'webmaster@localhost'
     EMAIL_FILE_PATH = '/home/pshah/tmp/'
     EMAIL_HOST = 'localhost'
     EMAIL_HOST_PASSWORD = ''
