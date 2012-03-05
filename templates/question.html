@@ -33,7 +33,7 @@
 		                <div class="post-update-info-container">                                    	
 							<div class='post-update-info post-update-info-user'>
 			    				<p style="line-height:12px;">
-			        				<span>posted about <span style="font-weight: bold; font-style: italic;">{{question.when|natural_time}} ago</span> ago</span>
+			        				<span>posted about <span style="font-weight: bold; font-style: italic;">{{question.when|natural_time}}</span> ago</span>
 			    				</p>
 			    				<img class="gravatar" width="32" height="32" src="{% url lernado.accounts.views.profile_pic user_id=question.user.id %}" alt="{{ question.user.username }}" />
 			    				<p>
@@ -91,7 +91,7 @@
 
 								<div class="post-update-info post-update-info-user">
 									<p style="line-height: 12px;">
-										<span>posted about <span style="font-weight: bold; font-style: italic;">{{answer.when|natural_time}} ago</span> ago</span>
+										<span>posted about <span style="font-weight: bold; font-style: italic;">{{answer.when|natural_time}}</span> ago</span>
 									</p>
 									<img class="gravatar" src="{% url lernado.accounts.views.profile_pic user_id=answer.user.id %}"
 										alt="{{answer.user.username}}" height="32" width="32">
