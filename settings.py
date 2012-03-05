@@ -8,6 +8,14 @@ if socket.gethostname() != 'ubuntu':
     FORCE_SCRIPT_NAME = deployment_settings.FORCE_SCRIPT_NAME
     STATIC_ROOT = deployment_settings.STATIC_ROOT
     DATABASES = deployment_settings.DATABASES
+    DEFAULT_FROM_EMAIL = deployment_settings.DEFAULT_FROM_EMAIL
+    EMAIL_FILE_PATH = deployment_settings.EMAIL_FILE_PATH
+    EMAIL_HOST = deployment_settings.EMAIL_HOST
+    EMAIL_USE_TLS = deployment_settings.EMAIL_USE_TLS
+    EMAIL_HOST_PASSWORD = deployment_settings.EMAIL_HOST_PASSWORD
+    EMAIL_HOST_USER = deployment_settings.EMAIL_HOST_USER
+    EMAIL_PORT = deployment_settings.EMAIL_PORT
+    ADMINS = deployment_settings.ADMINS
 else:
     TEMPLATE_DEBUG = DEBUG = True 
     # Absolute path to the directory static files should be collected to.
@@ -26,19 +34,21 @@ else:
         }
     }
     DEFAULT_FROM_EMAIL = 'webmaster@localhost'
-    EMAIL_FILE_PATH = '/home/pshah/tmp/'
+    EMAIL_FILE_PATH = '/tmp/'
     EMAIL_HOST = 'localhost'
     EMAIL_HOST_PASSWORD = ''
-    EMAIL_HOST_USER = 'admin@diycomputerscience.com'
+    EMAIL_HOST_USER = 'webmaster@localhost'
     EMAIL_PORT = 8888
+    
+    ADMINS = (
+    # ('Your Name', 'your_email@example.com'),
+    )
+
+MANAGERS = ADMINS
     
 
 
-ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
-)
 
-MANAGERS = ADMINS
 
 
 # Local time zone for this installation. Choices can be found here:
