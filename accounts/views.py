@@ -4,7 +4,6 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 import lernado.accounts.models as models
 import lernado.accounts.forms as forms
-from lernado.accounts.exceptions import AccountsException
 import mimetypes
 import logging
 from django.conf import settings
