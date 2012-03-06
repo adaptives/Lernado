@@ -1,8 +1,10 @@
 from django.http import HttpResponse
+from django.http import HttpResponseServerError
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 import lernado.accounts.models as models
 import lernado.accounts.forms as forms
+from lernado.accounts.exceptions import AccountsException
 import mimetypes
 import logging
 from django.conf import settings
@@ -44,9 +46,9 @@ def edit_profile(request, user_id):
                 user_profile.save()
                 return HttpResponseRedirect(reverse('lernado.accounts.views.view_profile', kwargs={'user_id':user.id}))
             else:
-                raise Http404
+                return HttpResponseServerError('profile form is not valid %r ' % profile_form.errors)
         else:
-            raise Http404
+            return HttpResponseServerError('This is neither a GET or POST request') 
     else:
         logger.error('Attempt to edit someone elses profile %r %r' % (request.user.id, user_id))
         raise Http404
