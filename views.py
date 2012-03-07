@@ -22,6 +22,7 @@ from django.contrib.flatpages.views import flatpage
 from django.contrib.flatpages.models import FlatPage
 import datetime
 import logging
+import lernado.mailers as mailers
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +43,7 @@ def courses(request):
 @login_required
 def course(request, course_id):
     course = Course.objects.get(id=course_id)
-    logger.info("Is user %r enrolled in course %r - %r" % (request.user.username, course.title, course.is_enrolled(request.user)))
+    #logger.info("Is user %r enrolled in course %r - %r" % (request.user.username, course.title, course.is_enrolled(request.user)))
     questions = Question.objects.filter(course=course.id).order_by('-when')
     activities = Activity.objects.filter(course=course.id).order_by('placement')
     question_form = forms.QuestionForm()
@@ -77,6 +78,7 @@ def question(request, course_id, question_id):
             cd = answer_form.cleaned_data
             answer = Answer(user=request.user, question=question, contents=cd['contents'])
             answer.save()
+            mailers.question_answered(request.get_host(), question)
             # Clear the answer form so we do not pre-populate it with the old answer
             answer_form = forms.AnswerForm()
         answers = Answer.objects.filter(question=question.id)
@@ -211,6 +213,7 @@ def activity_response(request, course_id, activity_id, activity_response_id):
             cd = activity_response_review_form.cleaned_data
             activity_response_review = ActivityResponseReview(user=request.user, activity_response=activity_response, contents=cd['contents'])
             activity_response_review.save()
+            mailers.activity_response_reviewed(request.get_host(), activity_response)
             return HttpResponseRedirect('/course/%d/activity/%d/response/%d/' % (course.id, activity.id, activity_response.id))
         else:
             ctx = {'course': course, 'activity': activity, 'activity_response': activity_response, 'activity_response_review_form': activity_response_review_form}

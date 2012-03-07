@@ -8,6 +8,8 @@ if socket.gethostname() != 'ubuntu':
     FORCE_SCRIPT_NAME = deployment_settings.FORCE_SCRIPT_NAME
     STATIC_ROOT = deployment_settings.STATIC_ROOT
     DATABASES = deployment_settings.DATABASES
+    
+    DEFAULT_BCC = deployment_settings.DEFAULT_BCC
     DEFAULT_FROM_EMAIL = deployment_settings.DEFAULT_FROM_EMAIL
     EMAIL_FILE_PATH = deployment_settings.EMAIL_FILE_PATH
     EMAIL_HOST = deployment_settings.EMAIL_HOST
@@ -33,6 +35,7 @@ else:
             'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
         }
     }
+    DEFAULT_BCC = 'bcc@localhost'
     DEFAULT_FROM_EMAIL = 'webmaster@localhost'
     EMAIL_FILE_PATH = '/tmp/'
     EMAIL_HOST = 'localhost'
