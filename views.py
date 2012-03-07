@@ -103,6 +103,7 @@ def ask_question(request, course_id):
             cd = question_form.cleaned_data
             question = Question(title=cd['title'], contents=cd['contents'], user=request.user, course=course)
             question.save()
+            mailers.question_asked(request.get_host(), question)
             return HttpResponseRedirect('/course/%d/' % course.id)
         else:
             ctx = {'course': course, 'question_form': question_form}
@@ -182,6 +183,7 @@ def activity(request, course_id, activity_id):
             cd = activity_form.cleaned_data
             activity_response = ActivityResponse(user=request.user, activity=activity, contents=cd['contents'])
             activity_response.save()
+            mailers.activity_response(request.get_host(), activity_response)
             return HttpResponseRedirect('/course/%d/activity/%d/' % (course.id, activity.id))
         else:
             ctx = {'course': course, 'activity': activity, 'activity_form': activity_form}

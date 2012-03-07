@@ -3,6 +3,20 @@ from django.core.mail import send_mail
 from smtplib import SMTPException
 from lernado import settings
 
+def question_asked(host, question):
+    subject = "%s - A new question has been asked - '%s'" % (question.course.title, question.title)
+    from_email = settings.EMAIL_HOST_USER
+    to = [settings.DEFAULT_BCC]
+    fail_silently = False
+    #TODO: In the line below, we are hard-coding http... remove the hard coding
+    message = """
+    %s
+    """ % ("http://" + host + reverse('lernado.views.question', kwargs={'course_id':question.course.id, 'question_id':question.id}))
+    try:
+        send_mail(subject, message, from_email, to, fail_silently=fail_silently)
+    except Exception:
+        pass    
+    
 def question_answered(host, question):
     subject = "%s - Your question titled %s has a new answer" % (question.course.title, question.title)
     from_email = settings.EMAIL_HOST_USER
@@ -21,6 +35,21 @@ def question_answered(host, question):
     except Exception:
         pass
         
+
+def activity_response(host, activity_response):
+    subject = "%s - New response submitted for '%s'" % (activity_response.activity.course.title, activity_response.activity.title)
+    from_email = settings.EMAIL_HOST_USER
+    to = [settings.DEFAULT_BCC]
+    fail_silently = False
+    #TODO: In the line below, we are hard-coding http... remove the hard coding
+    message = """ 
+    %s
+    """ % ("http://" + host + reverse('lernado.views.activity_response', kwargs={'course_id':activity_response.activity.course.id, 'activity_id':activity_response.activity.id, 'activity_response_id':activity_response.id}))
+    try:
+        send_mail(subject, message, from_email, to, fail_silently=fail_silently)
+    except Exception:
+        pass    
+
 
 def activity_response_reviewed(host, activity_response):
     subject = "%s - Your response for activity '%s' has a new review" % (activity_response.activity.course.title, activity_response.activity.title)
