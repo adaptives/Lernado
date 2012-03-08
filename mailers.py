@@ -73,7 +73,7 @@ def activity_response_reviewed(host, activity_response):
 def name(user):
     ret_val = ""
     if user.first_name:
-        ret_val =+ user.first_name
+        ret_val += user.first_name
     if user.last_name:
         ret_val += "" + user.last_name
     if not ret_val:
