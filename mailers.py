@@ -75,7 +75,7 @@ def name(user):
     if user.first_name:
         ret_val += user.first_name
     if user.last_name:
-        ret_val += "" + user.last_name
+        ret_val += " " + user.last_name
     if not ret_val:
         ret_val = user.username
     return ret_val
