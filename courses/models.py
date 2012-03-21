@@ -156,7 +156,7 @@ class ActivityResponse(models.Model):
             visit.save()
     
     def reviewed_by(self, user):
-        reviews_by_user = ActivityResponseReview.objects.filter(activity_response__id=self.id, user__id=user.id).count
+        reviews_by_user = ActivityResponseReview.objects.filter(activity_response__id=self.id, user__id=user.id).count()
         if(reviews_by_user > 0):
             return True
         else:
