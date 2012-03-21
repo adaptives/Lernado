@@ -3,9 +3,15 @@
 {% block course_content %}
 {% load markup %}
 
+<div>
 <form action="{% url lernado.views.edit_answer course_id=course.id question_id=question_id answer_id=answer_id%}" method="POST">
 {% csrf_token %}
 <div class="wmd-panel">
+<div class="error">
+{% for content_error in answer_form.contents.errors %}
+    <div>{{ content_error }}</div>
+{% endfor %}
+</div>
 <div>
     <div id="wmd-button-bar"></div>
     {{ answer_form.contents }}
@@ -16,7 +22,7 @@
 <div id="wmd-preview" class="wmd-preview"></div>
 </div>
 </form>
-
+</div>
 <script type="text/javascript">
     (function () {
         var converter = Markdown.getSanitizingConverter();

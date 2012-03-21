@@ -6,8 +6,20 @@
 <form action="{% url lernado.views.edit_question course_id=course.id question_id=question_id%}" method="POST">
 {% csrf_token %}
 <div class="wmd-panel">
+
+<div class="error">
+{% for title_error in question_form.title.errors %}
+    <div>{{ title_error }}</div>
+{% endfor %}
+</div>
 <div>
 <span class="question-title">Title:</span>   {{ question_form.title }}
+</div>
+
+<div class="error">
+{% for content_error in question_form.contents.errors %}
+    <div>{{ content_error }}</div>
+{% endfor %}
 </div>
 <div>
     <div id="wmd-button-bar"></div>
