@@ -154,6 +154,16 @@ class ActivityResponse(models.Model):
         except ObjectDoesNotExist:
             visit = ActivityResponseVisit(user=user, activity_response=self)
             visit.save()
+    
+    def reviewed_by(self, user):
+        reviews_by_user = ActivityResponseReview.objects.filter(activity_response__id=self.id, user__id=user.id).count
+        if(reviews_by_user > 0):
+            return True
+        else:
+            return False
+        
+    def reviews(self):
+            return ActivityResponseReview.objects.filter(activity_response__id=self.id).count()
         
     def __unicode__(self):
         return "Response for '%s' by '%s' at '%r" % (self.activity.title, self.user.username, self.when)

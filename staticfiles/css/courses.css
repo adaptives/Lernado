@@ -252,7 +252,10 @@ color:#999999;
 text-decoration:underline;
 }
 
-	
+
+.reviewed {
+    color: green;	
+}
 	/* > End inner 
 -------------------------------------------------------------- */
 

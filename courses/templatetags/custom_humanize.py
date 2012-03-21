@@ -47,4 +47,10 @@ def answer_like(user, answer):
                     border="0">
         </a>
         """ % (str(answer.question.course.id), str(answer.question.id), str(answer.id))
-        
+
+@register.simple_tag
+def review_done_class(activity_response, user):
+    if activity_response.reviewed_by(user):
+        return "reviewed"
+    else:
+        return ""

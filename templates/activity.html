@@ -36,12 +36,13 @@
 </div>
 <div class="headNormal" style="margin-top: 30px;">Responses submitted by other participants</div>
 <div id="responses">
-	{% for activity_response in activity_responses %}
-		<div>
-			<img height="16" width="16" src="{% url lernado.accounts.views.profile_pic user_id=activity_response.user.id %}">
-			<span style="margin-left: 4px;">
-				<a href="{% url lernado.views.activity_response course_id=course.id activity_id=activity.id activity_response_id=activity_response.id %}">Response for activity '{{activity_response.activity.title}}' </a> submitted by <a href="{% url lernado.accounts.views.view_profile user_id=activity_response.user.id %}">{{activity_response.user.username}}</a> about {{activity_response.when|natural_time}} ago
-			</span>
+	{% for response in activity_responses %}
+		<div class="{% review_done_class response user %}">
+			<img height="16" width="16" src="{% url lernado.accounts.views.profile_pic user_id=response.user.id %}" >
+			<a href="{% url lernado.views.activity_response course_id=course.id activity_id=response.activity.id activity_response_id=response.id%}">activity response</a> by 
+			<a href="{% url lernado.accounts.views.view_profile user_id=response.user.id%}">{{response.user.username}}</a>
+			<span>submitted about {{response.when|natural_time}} ago </span>
+			<span>has {{response.reviews}} reviews</span>
 		</div>
 	{% endfor %}
 </div>
