@@ -27,8 +27,10 @@
 		    				<p>
 		    					<a href="{% url lernado.accounts.views.view_profile user_id=activity_response.user.id %}">{{ activity_response.user.username }}</a><br/>			    					
 		    				</p>
-		    				<p>			    					
-		    					<a href="{% url lernado.views.edit_activity_response course_id=course.id activity_id=activity.id activity_response_id=activity_response.id %}">edit</a>			    					
+		    				<p>			    		
+		    					{% if request.user == activity_response.user %}			
+		    						<a href="{% url lernado.views.edit_activity_response course_id=course.id activity_id=activity.id activity_response_id=activity_response.id %}">edit</a>
+		    					{% endif %}			    					
 		    				</p>
 						</div>
 	                </div>
@@ -70,7 +72,9 @@
 										</a>
 										<br> 
 										<div>
-											<a href="{% url lernado.views.edit_activity_response_review course_id=course.id activity_id=activity.id activity_response_id=activity_response.id activity_response_review_id=activity_response_review.id %}">edit</a>
+											{% if request.user == activity_response_review.user %}
+												<a href="{% url lernado.views.edit_activity_response_review course_id=course.id activity_id=activity.id activity_response_id=activity_response.id activity_response_review_id=activity_response_review.id %}">edit</a>
+											{% endif %}
 										</div>
 									</p>
 								</div>

@@ -115,7 +115,10 @@ def ask_question(request, course_id):
 def edit_question(request, course_id, question_id):
     course = Course.objects.get(id=course_id)
     question = Question.objects.get(id=question_id)
-
+    
+    if request.user != question.user:
+        raise Exception('You can only edit your own question')
+    
     if request.method == 'GET':
         question_form = forms.QuestionForm({'title': question.title, 'contents': question.contents})
         ctx = {'course': course, 'question_id': question.id, 'question_form': question_form}
@@ -140,6 +143,9 @@ def edit_answer(request, course_id, question_id, answer_id):
     course = Course.objects.get(id=course_id)
     question = Question.objects.get(id=question_id)
     answer = Answer.objects.get(id=answer_id)
+    
+    if request.user != answer.user:
+        raise Exception('You can only edit your own answer')
     
     if request.method == 'GET':
         answer_form = forms.AnswerForm({'contents': answer.contents})
@@ -222,6 +228,10 @@ def edit_activity_response(request, course_id, activity_id, activity_response_id
     activity = Activity.objects.get(id=activity_id)
     activity_response = ActivityResponse.objects.get(id=activity_response_id)
     
+    #TODO: All these permissions should be managed with annotations
+    if request.user != activity_response.user:
+        raise Exception('You can only edit your own activity_response')
+    
     if request.method == 'GET':
         activity_form = forms.ActivityForm({'contents':activity_response.contents})
         ctx = {'course': course, 'activity': activity, 'activity_response_id': activity_response.id, 'activity_form': activity_form}
@@ -280,6 +290,9 @@ def edit_activity_response_review(request, course_id, activity_id, activity_resp
     activity = Activity.objects.get(id=activity_id)
     activity_response = ActivityResponse.objects.get(id=activity_response_id)
     activity_response_review = ActivityResponseReview.objects.get(id=activity_response_review_id)
+    
+    if request.user != activity_response_review.user:
+        raise Exception('You can only edit your own question')
     
     if request.method == 'GET':
         activity_response_review_form = forms.ActivityResponseReviewForm({'contents':activity_response_review.contents})

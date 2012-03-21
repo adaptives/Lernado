@@ -47,3 +47,4 @@ def answer_like(user, answer):
                     border="0">
         </a>
         """ % (str(answer.question.course.id), str(answer.question.id), str(answer.id))
+        
