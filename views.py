@@ -116,7 +116,7 @@ def edit_question(request, course_id, question_id):
     course = Course.objects.get(id=course_id)
     question = Question.objects.get(id=question_id)
 
-    if request.method == 'GET':        
+    if request.method == 'GET':
         question_form = forms.QuestionForm({'title': question.title, 'contents': question.contents})
         ctx = {'course': course, 'question_id': question.id, 'question_form': question_form}
         return render_to_response('edit_question.html', RequestContext(request, ctx))
@@ -129,11 +129,36 @@ def edit_question(request, course_id, question_id):
             question.save()
             return HttpResponseRedirect('/course/%d/question/%d/' % (course.id, question.id))
         else:
-            ctx = {'course': course, 'question_form': question_form}
+            ctx = {'course': course, 'question_id': question.id, 'question_form': question_form}
             return render_to_response('edit_question.html', RequestContext(request, ctx))
     else:
         raise Http404
    
+
+@login_required
+def edit_answer(request, course_id, question_id, answer_id):
+    course = Course.objects.get(id=course_id)
+    question = Question.objects.get(id=question_id)
+    answer = Answer.objects.get(id=answer_id)
+    
+    if request.method == 'GET':
+        answer_form = forms.AnswerForm({'contents': answer.contents})
+        ctx = {'course': course, 'question_id': question.id, 'answer_id':answer_id, 'answer_form': answer_form}
+        return render_to_response('edit_answer.html', RequestContext(request, ctx))
+    elif request.method == 'POST':
+        answer_form = forms.AnswerForm(request.POST)
+        if answer_form.is_valid():
+            cd = answer_form.cleaned_data
+            answer.contents = cd['contents']
+            answer.save()
+            return HttpResponseRedirect('/course/%d/question/%d/' % (course.id, question.id))
+        else:
+            ctx = {'course': course, 'question_id': question.id, 'answer_id':answer_id, 'answer_form': answer_form}
+            return render_to_response('edit_answer.html', RequestContext(request, ctx))
+    else:
+        raise Http404
+   
+
 
 @login_required
 def like_question(request, course_id, question_id):
