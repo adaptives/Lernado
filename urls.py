@@ -27,6 +27,8 @@ urlpatterns = patterns('',
     (r'^course/(?P<course_id>\d+)/askquestion/$', views.ask_question),
     (r'^course/(?P<course_id>\d+)/activity/(?P<activity_id>\d+)/$', views.activity),
     (r'^course/(?P<course_id>\d+)/activity/(?P<activity_id>\d+)/response/(?P<activity_response_id>\d+)/$', views.activity_response),
+    (r'^course/(?P<course_id>\d+)/activity/(?P<activity_id>\d+)/response/(?P<activity_response_id>\d+)/edit/$', views.edit_activity_response),
+    (r'^course/(?P<course_id>\d+)/activity/(?P<activity_id>\d+)/response/(?P<activity_response_id>\d+)/review/(?P<activity_response_review_id>\d+)/edit/$', views.edit_activity_response_review),    
     (r'^page/(?P<page>.+)/$', views.page),
     # Examples:
     # url(r'^$', 'lernado.views.home', name='home'),

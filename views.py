@@ -215,7 +215,32 @@ def activity(request, course_id, activity_id):
             return render_to_response('activity.html', RequestContext(ctx))
     else:
         raise Http404
+
+@login_required
+def edit_activity_response(request, course_id, activity_id, activity_response_id):
+    course = Course.objects.get(id=course_id)
+    activity = Activity.objects.get(id=activity_id)
+    activity_response = ActivityResponse.objects.get(id=activity_response_id)
     
+    if request.method == 'GET':
+        activity_form = forms.ActivityForm({'contents':activity_response.contents})
+        ctx = {'course': course, 'activity': activity, 'activity_response_id': activity_response.id, 'activity_form': activity_form}
+        return render_to_response('edit_activity_response.html', RequestContext(request, ctx))
+    elif request.method == 'POST':
+        #TODO: Change the variable name here and everywhere to activity_response_form
+        activity_form = forms.ActivityForm(request.POST)
+        if activity_form.is_valid():
+            cd = activity_form.cleaned_data
+            activity_response.contents = cd['contents']
+            activity_response.save()
+            return HttpResponseRedirect('/course/%d/activity/%d/response/%d/' % (course.id, activity.id, activity_response.id))
+        else:
+            ctx = {'course': course, 'activity': activity, 'activity_response_id': activity_response.id, 'activity_form': activity_form}
+            return render_to_response('edit_activity_response.html', RequestContext(request, ctx))
+    else:
+        raise Http404
+    
+
 @login_required
 def activity_response(request, course_id, activity_id, activity_response_id):
     course = Course.objects.get(id=course_id)
@@ -247,6 +272,32 @@ def activity_response(request, course_id, activity_id, activity_response_id):
             return render_to_response('activity_response.html', RequestContext(request, ctx))
     else:
         raise Http404
+
+
+@login_required
+def edit_activity_response_review(request, course_id, activity_id, activity_response_id, activity_response_review_id):
+    course = Course.objects.get(id=course_id)
+    activity = Activity.objects.get(id=activity_id)
+    activity_response = ActivityResponse.objects.get(id=activity_response_id)
+    activity_response_review = ActivityResponseReview.objects.get(id=activity_response_review_id)
+    
+    if request.method == 'GET':
+        activity_response_review_form = forms.ActivityResponseReviewForm({'contents':activity_response_review.contents})
+        ctx = {'course': course, 'activity': activity, 'activity_response': activity_response, 'activity_response_review_id': activity_response_review.id, 'activity_response_review_form': activity_response_review_form}
+        return render_to_response('edit_activity_response_review.html', RequestContext(request, ctx))
+    elif request.method == 'POST':
+        activity_response_review_form = forms.ActivityResponseReviewForm(request.POST)
+        if activity_response_review_form.is_valid():
+            cd = activity_response_review_form.cleaned_data
+            activity_response_review.contents = cd['contents']
+            activity_response_review.save()
+            return HttpResponseRedirect('/course/%d/activity/%d/response/%d/' % (course.id, activity.id, activity_response.id))        
+        else:
+            ctx = {'course': course, 'activity': activity, 'activity_response': activity_response, 'activity_response_review_id': activity_response_review.id, 'activity_response_review_form': activity_response_review_form}
+            return render_to_response('edit_activity_response_review.html', RequestContext(request, ctx))        
+    else:
+        raise Http404
+    
 
 @login_required
 def all_activity_submissions(request, course_id):

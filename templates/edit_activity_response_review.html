@@ -42,50 +42,8 @@
 
 
 <div>
-<div class="headNormal" style="margin-top: 30px;">Reviews</div>
-<div>
-{% for activity_response_review in activity_response_reviews %}
-	<div id="answer-container-${theAnswer.id}" class="answer ">
-		<table style="width: 100%;">
-			<tbody>
-				<tr>
-					<td>
-						<div class="item-right">
-							<div class="answer-body">
-								<p>
-									{{ activity_response_review.contents|markdown }}
-								</p>
-							</div>
-							<div class="post-update-info-container">
 
-								<div class="post-update-info post-update-info-user">
-									<p style="line-height: 12px;">
-										<span>posted <span style="font-weight: bold; font-style: italic;">{{ activity_response_review.when|natural_time }}</span> ago</span>
-									</p>
-									<img class="gravatar" src="{% url lernado.accounts.views.profile_pic user_id=activity_response_review.user.id %}"
-										alt="{{activity_response_review.user.username}}" height="32" width="32">
-									<p>
-										<a href="{% url lernado.accounts.views.view_profile user_id=activity_response_review.user.id %}">
-											{{activity_response_review.user.username}}
-										</a>
-										<br> 
-										<div>
-											<a href="{% url lernado.views.edit_activity_response_review course_id=course.id activity_id=activity.id activity_response_id=activity_response.id activity_response_review_id=activity_response_review.id %}">edit</a>
-										</div>
-									</p>
-								</div>
-							</div>
-						</div></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-{% endfor %}
-</div>
-
-<div class="headNormal" style="margin-top: 30px;">Help your co-learner by submitting your review to their activity response</div>
-
-<form action="{% url lernado.views.activity_response course_id=course.id activity_id=activity.id activity_response_id=activity_response.id %}" method="POST">
+<form action="{% url lernado.views.edit_activity_response_review course_id=course.id activity_id=activity.id activity_response_id=activity_response.id activity_response_review_id=activity_response_review_id %}" method="POST">
 {% csrf_token %}
 <div class="wmd-panel">
 <div class="error">

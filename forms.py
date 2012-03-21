@@ -9,6 +9,7 @@ class QuestionForm(forms.Form):
 class AnswerForm(forms.Form):
     contents = forms.CharField(widget=forms.Textarea(attrs=markdown_textarea_attrs))
     
+#TODO: Change the name to ActivityResponseForm
 class ActivityForm(forms.Form):
     contents = forms.CharField(widget=forms.Textarea(attrs=markdown_textarea_attrs))
 
