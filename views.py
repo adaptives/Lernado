@@ -23,6 +23,7 @@ from django.contrib.flatpages.models import FlatPage
 import datetime
 import logging
 import lernado.mailers as mailers
+from django.db.models import Q
 
 logger = logging.getLogger(__name__)
 
@@ -36,8 +37,9 @@ def home(request):
 
 @login_required
 def courses(request):
-    courses = Course.objects.all()
-    ctx = {'courses':courses}
+    calendar_courses = Course.objects.filter(~Q(start_date=None) & ~Q(end_date=None) & ~Q(status='C'))
+    self_paced_courses = Course.objects.filter(Q(start_date__isnull=True) & Q(end_date__isnull=True) & ~Q(status='C'))
+    ctx = {'calendar_courses':calendar_courses, 'self_paced_courses':self_paced_courses}
     return render_to_response('courses.html', RequestContext(request, ctx))
 
 @login_required
