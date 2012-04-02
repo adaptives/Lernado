@@ -22,6 +22,12 @@ class Course(models.Model):
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
     completed_by = models.ManyToManyField(User, related_name='course_completed_by', blank=True)
+    faciliators = models.ManyToManyField(User, related_name='faciliators', blank=True)
+    forum_faciliators = models.ManyToManyField(User, related_name='forum_faciliators', blank=True)
+    activity_faciliators = models.ManyToManyField(User, related_name='activity_faciliators', blank=True)
+    send_forum_fac_email = models.BooleanField(default=False)
+    send_activity_fac_email = models.BooleanField(default=False)
+    course_fac_emails_strat = models.IntegerField(default=0)
     
     def has_completed(self, user):
         completed = Course.objects.filter(users__id=user.id)
@@ -69,6 +75,7 @@ class CoursePage(models.Model):
 
 class Question(models.Model):
     user = models.ForeignKey(User)
+    followers = models.ManyToManyField(User, related_name='followers', blank=True)
     when = models.DateTimeField(default=datetime.datetime.now)
     course = models.ForeignKey(Course)
     title = models.CharField(max_length=256)
