@@ -2,6 +2,8 @@
 import os
 import socket
 
+LERNADO_VERSION = "0.1"
+
 if socket.gethostname() != 'ubuntu':
     import deployment_settings
     TEMPLATE_DEBUG = DEBUG =  deployment_settings.DEBUG
