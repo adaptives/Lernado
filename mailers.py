@@ -24,11 +24,13 @@ def question_asked(host, question):
             email_msg = EmailMessage(subject=subject, body=message, from_email=from_email, to=[to_user.email], bcc=bcc)
             email_msg.content_subtype = "html"  # Main content is now text/html
             email_msg.send(fail_silently=fail_silently)
-            #send_mail(subject, message, from_email, to, fail_silently=fail_silently)
         except Exception:
             pass    
     
-def question_answered(host, question):
+def question_answered(host, question, answer):
+    if question.user == answer.user:
+        return
+    
     subject = "%s - Your question titled %s has a new answer" % (question.course.title, question.title)
     from_email = settings.EMAIL_HOST_USER
     to = [question.user.email, settings.DEFAULT_BCC]
@@ -48,18 +50,25 @@ def question_answered(host, question):
         
 
 def activity_response(host, activity_response):
+    if not activity_response.activity.course.send_activity_notification:
+        return
+    
     subject = "%s - New response submitted for '%s'" % (activity_response.activity.course.title, activity_response.activity.title)
     from_email = settings.EMAIL_HOST_USER
-    to = [settings.DEFAULT_BCC]
+    to_users = activity_response.activity.course.activity_faciliators.all()
+    bcc = [settings.DEFAULT_BCC]
     fail_silently = False
     #TODO: In the line below, we are hard-coding http... remove the hard coding
     message = """ 
     %s
     """ % ("http://" + host + reverse('lernado.views.activity_response', kwargs={'course_id':activity_response.activity.course.id, 'activity_id':activity_response.activity.id, 'activity_response_id':activity_response.id}))
-    try:
-        send_mail(subject, message, from_email, to, fail_silently=fail_silently)
-    except Exception:
-        pass    
+    for to_user in to_users:
+        try:
+            email_msg = EmailMessage(subject=subject, body=message, from_email=from_email, to=[to_user.email], bcc=bcc)
+            email_msg.content_subtype = "html"  # Main content is now text/html
+            email_msg.send(fail_silently=fail_silently)
+        except Exception:
+            pass    
 
 
 def activity_response_reviewed(host, activity_response):
