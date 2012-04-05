@@ -85,7 +85,7 @@ def question(request, course_id, question_id):
             cd = answer_form.cleaned_data
             answer = Answer(user=request.user, question=question, contents=cd['contents'])
             answer.save()
-            mailers.question_answered(request.get_host(), question)
+            mailers.question_answered(request.get_host(), question, answer)
             # Clear the answer form so we do not pre-populate it with the old answer
             answer_form = forms.AnswerForm()
         answers = Answer.objects.filter(question=question.id)
