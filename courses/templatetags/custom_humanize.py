@@ -54,3 +54,16 @@ def review_done_class(activity_response, user):
         return "reviewed"
     else:
         return ""
+
+@register.simple_tag
+def enrollment_status(course, user, url):
+    if url.find('enroll') != -1 or url.find('drop') != -1:
+        return '' 
+    #TODO: Use reverse instead of hardcoding
+    html = '<a class="%s" href="/course/%s/%s">%s</a>'
+    if course.is_enrolled(user):
+        return html % ('course-drop', 'drop', str(course.id), 'Drop Course')
+    elif course.is_enrollment_pending(user):
+        return "Your application is pending approval"
+    else:
+        return html % ('course-enrollment', 'enroll', str(course.id), 'Enroll')

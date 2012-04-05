@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load custom_humanize %}
 {% block courses_menu %}selected{% endblock %}
 {% block content %}
 
@@ -14,6 +15,9 @@
 	</div>
 </div>
 
+<div>
+{% enrollment_status course user request.path %}
+</div>
 <div>
 {% block course_content %}{% endblock %}
 </div>

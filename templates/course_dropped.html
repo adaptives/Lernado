@@ -1,0 +1,10 @@
+{% extends "course_main.html" %}
+{% block course_home_submenu %}submenu-item-selected{%endblock%}
+{% block course_content %}
+{% load markup %}
+
+<div>
+You have successfully dropped out of course '{{course.title}}'
+</div>
+{% endblock %}
+

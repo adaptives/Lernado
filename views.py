@@ -16,6 +16,8 @@ from lernado.courses.models import Activity
 from lernado.courses.models import ActivityResponse
 from lernado.courses.models import ActivityResponseVisit
 from lernado.courses.models import ActivityResponseReview
+from lernado.courses.models import CourseEnrollApplication
+from lernado.courses.models import CourseDropApplication
 import lernado.forms as forms
 from django.template import RequestContext
 from django.contrib.flatpages.views import flatpage
@@ -41,6 +43,9 @@ def courses(request):
     self_paced_courses = Course.objects.filter(Q(start_date__isnull=True) & Q(end_date__isnull=True) & ~Q(status='C'))
     ctx = {'calendar_courses':calendar_courses, 'self_paced_courses':self_paced_courses}
     return render_to_response('courses.html', RequestContext(request, ctx))
+
+def calling_course(request, course_id):
+    return course(request, course_id) 
 
 @login_required
 def course(request, course_id):
@@ -93,6 +98,11 @@ def question(request, course_id, question_id):
 @login_required
 def ask_question(request, course_id):
     course = Course.objects.get(id=course_id)
+    
+    #TODO: We need an annotation for this
+    if not course.is_enrolled(request.user):
+        ctx = {'course': course, 'msg':'You must be enrolled in this course to ask questions.'}
+        return render_to_response('permission_denied.html', RequestContext(request, ctx))
     
     if request.method == 'GET':
         question_form = forms.QuestionForm()
@@ -208,9 +218,13 @@ def activity(request, course_id, activity_id):
     if request.method == 'GET':
         activity_responses = ActivityResponse.objects.filter(activity=activity).order_by('-when')
         activity_form = forms.ActivityForm()
-        ctx = {'course': course, 'activity': activity, 'activity_responses': activity_responses, 'activity_form': activity_form}
+        ctx = {'course': course, 'activity': activity, 'activity_responses': activity_responses, 'activity_form': activity_form, 'enrolled':course.is_enrolled(request.user)}
         return render_to_response('activity.html', RequestContext(request, ctx))
     elif request.method == 'POST':
+        #TODO: We need an annotation for this
+        if not course.is_enrolled(request.user):
+            ctx = {'course': course, 'msg':'You must be enrolled in this course to ask questions.'}
+            return render_to_response('permission_denied.html', RequestContext(request, ctx))
         activity_form = forms.ActivityForm(request.POST)
         if activity_form.is_valid():
             cd = activity_form.cleaned_data
@@ -327,6 +341,61 @@ def all_activity_submissions(request, course_id):
     ctx = {'course': course, 'activity_and_responses': activity_and_responses}
     return render_to_response('all_activity_submissions.html', RequestContext(request, ctx))
 
+@login_required
+def enroll(request, course_id):
+    the_course = Course.objects.get(id=course_id)
+    #Multiple applications are not allowed as long as the application is pending approval
+    if the_course.is_enrollment_pending(request.user):
+        raise Exception("Your application for the %s course is pending approval. Please wait till the application is processed" % the_course.title)
+    
+    if request.method == 'GET':
+        enroll_form = forms.EnrollForm()
+        ctx = {'course':the_course, 'enroll_form':enroll_form}
+        return render_to_response('enroll_form.html', RequestContext(request, ctx))
+    elif request.method == 'POST':
+        enroll_form = forms.EnrollForm(request.POST)
+        if enroll_form.is_valid():
+            cd = enroll_form.cleaned_data
+            course_enrollment_application = CourseEnrollApplication(user=request.user, course=the_course, comment=cd['comment'], status='P')
+            course_enrollment_application.save()
+            if not the_course.verify_enrollment:
+                course_enrollment_application.status = 'A'
+                course_enrollment_application.save()
+                the_course.users.add(request.user)
+                the_course.save()
+            return HttpResponseRedirect('/course/%d/' % the_course.id)
+        else:
+            ctx = {'course':the_course, 'enroll_form':enroll_form}
+            return render_to_response('enroll_form.html', RequestContext(request, ctx))
+    else:
+        raise Http404
+    
+
+@login_required
+def drop_course(request, course_id):
+    course = Course.objects.get(id=course_id)
+    #cannot drop a course in which you are not enrolled
+    if not course.is_enrolled(request.user):
+        raise Exception("You cannot a drop a course in which you are not enrolled")
+    
+    if request.method == 'GET':
+        drop_form = forms.DropForm()
+        ctx = {'course':course, 'drop_form':drop_form}
+        return render_to_response('drop_form.html', RequestContext(request, ctx))
+    elif request.method == 'POST':
+        drop_form = forms.DropForm(request.POST)
+        if drop_form.is_valid():
+            cd = drop_form.cleaned_data
+            course_drop_application = CourseDropApplication(user=request.user, course=course, comment=cd['comment'])
+            course_drop_application.save()
+            course.users.remove(request.user)
+            course.save()
+            ctx = {'course':course}
+            return render_to_response('course_dropped.html', RequestContext(request, ctx))
+    else:
+        raise Http404
+            
+    
 @login_required
 def page(request, page):
     return flatpage(request, '/page/%s/' % page)

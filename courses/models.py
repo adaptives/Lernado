@@ -25,9 +25,10 @@ class Course(models.Model):
     faciliators = models.ManyToManyField(User, related_name='faciliators', blank=True)
     forum_faciliators = models.ManyToManyField(User, related_name='forum_faciliators', blank=True)
     activity_faciliators = models.ManyToManyField(User, related_name='activity_faciliators', blank=True)
-    send_forum_fac_email = models.BooleanField(default=False)
-    send_activity_fac_email = models.BooleanField(default=False)
-    course_fac_emails_strat = models.IntegerField(default=0)
+    send_forum_notification = models.BooleanField(default=False)
+    send_activity_notification = models.BooleanField(default=False)
+    facilitator_notification_strategy = models.IntegerField(default=0)
+    verify_enrollment = models.BooleanField(default=False)
     
     def has_completed(self, user):
         completed = Course.objects.filter(users__id=user.id)
@@ -37,6 +38,10 @@ class Course(models.Model):
         enrolled_course = Course.objects.filter(users__id=user.id, id=self.id)        
         return enrolled_course and True or False
 
+    def is_enrollment_pending(self, user):
+        pending_applications = CourseEnrollApplication.objects.filter(user=user, course=self, status='P')
+        return pending_applications and True or False
+        
     def __unicode__(self):
         #TODO: Change to reflect the time period 
         return self.title
@@ -52,13 +57,12 @@ class CourseEnrollApplication(models.Model):
     when = models.DateTimeField(default=datetime.datetime.now)
     comment = models.TextField()
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
+    changed_by = models.ForeignKey(User, null=True, related_name='changed_by')
+    
+    def __unicode__(self):
+        return "%s : %s : %s" % (self.user.username, self.course.title, self.when.utcnow().strftime('%Y/%m/%d/ %H:%M'))
     
 class CourseDropApplication(models.Model):
-    STATUS_CHOICES = (
-        ('P', 'Pending'),
-        ('A', 'Approved'),
-        ('R', 'Rejected'),
-    )
     user = models.ForeignKey(User)
     course = models.ForeignKey(Course)
     when = models.DateTimeField(default=datetime.datetime.now)

@@ -15,3 +15,10 @@ class ActivityForm(forms.Form):
 
 class ActivityResponseReviewForm(forms.Form):
     contents = forms.CharField(widget=forms.Textarea(attrs=markdown_textarea_attrs))
+    
+class EnrollForm(forms.Form):
+    comment = forms.CharField(widget=forms.Textarea(attrs=markdown_textarea_attrs))
+    
+class DropForm(forms.Form):
+    comment = forms.CharField(widget=forms.Textarea(attrs=markdown_textarea_attrs))
+

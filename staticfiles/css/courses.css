@@ -84,6 +84,17 @@
 	text-decoration: none;	
 }
 
+.course-drop {
+	color: #fff;
+    text-decoration: none;
+    background: red;
+    padding: 2px 10px;
+}
+
+.course-drop a {
+	text-decoration: none;	
+}
+
 /* Recent addition for the current list */
 .subscribe {
 /*    position:relative;*/

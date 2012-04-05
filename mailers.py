@@ -1,21 +1,32 @@
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from smtplib import SMTPException
 from lernado import settings
 
 def question_asked(host, question):
+    if not question.course.send_forum_notification:
+        print "not required to send email for new question"
+        return
+    
     subject = "%s - A new question has been asked - '%s'" % (question.course.title, question.title)
-    from_email = settings.EMAIL_HOST_USER
-    to = [settings.DEFAULT_BCC]
-    fail_silently = False
-    #TODO: In the line below, we are hard-coding http... remove the hard coding
     message = """
     %s
     """ % ("http://" + host + reverse('lernado.views.question', kwargs={'course_id':question.course.id, 'question_id':question.id}))
-    try:
-        send_mail(subject, message, from_email, to, fail_silently=fail_silently)
-    except Exception:
-        pass    
+    from_email = settings.EMAIL_HOST_USER
+    bcc = [settings.DEFAULT_BCC]
+    to_users = question.course.forum_faciliators.all()
+    fail_silently = False
+    for to_user in to_users:
+        print "sending email to user %r" % to_user.email
+        #TODO: In the line below, we are hard-coding http... remove the hard coding  
+        try:
+            email_msg = EmailMessage(subject=subject, body=message, from_email=from_email, to=[to_user.email], bcc=bcc)
+            email_msg.content_subtype = "html"  # Main content is now text/html
+            email_msg.send(fail_silently=fail_silently)
+            #send_mail(subject, message, from_email, to, fail_silently=fail_silently)
+        except Exception:
+            pass    
     
 def question_answered(host, question):
     subject = "%s - Your question titled %s has a new answer" % (question.course.title, question.title)

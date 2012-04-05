@@ -1,0 +1,32 @@
+{% extends "course_main.html" %}
+{% block course_home_submenu %}submenu-item-selected{%endblock%}
+{% block course_content %}
+{% load markup %}
+
+<div>
+<form action="" method="POST">
+    {% csrf_token %}
+	<div class="wmd-panel">
+		<div>
+			<span class="question-title">Please tell us why you would like to drop out of this course</span>
+		</div>
+		<div>
+			<div id="wmd-button-bar"></div>
+			{{ drop_form.comment }}
+		</div>
+		<div>
+			<input type="submit" name="submit" value="submit" />
+		</div>
+		<div id="wmd-preview" class="wmd-preview"></div>
+	</div>
+</form>
+<script type="text/javascript">
+    (function () {
+        var converter = Markdown.getSanitizingConverter();
+        var editor = new Markdown.Editor(converter)
+        editor.run()
+    })();
+</script>
+</div>
+{% endblock %}
+
