@@ -1,14 +1,12 @@
 		/* > Start Submenu
 -------------------------------------------------------------- */
 .mainsubnav{
-/*    background-color:#444444;*/
     background:url(/static/images/sub_bg.png) repeat-x;
 	width:100%;
 	height:35px;
 	clear:both;
 	border-bottom:4px solid #4183C4;
 	margin-bottom: 15px;
-	/*#ff9900;*/
 }
 .subnav {
 	float:left;
@@ -24,8 +22,6 @@
 	display:block;
 	float:left;
 	margin-right:7px;
-/*	border-bottom:1px solid #000;
-	border-right:1px solid #000;*/
 }
 
 
@@ -50,6 +46,3 @@
 a.submenu-item-selected { 
 	color: #fff;
 }
-
-		/* > Start Submenu
--------------------------------------------------------------- */
