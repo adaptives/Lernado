@@ -1,5 +1,6 @@
-@import url(reset.css);
 @import url(default.css);
+@import url(header_footer.css);
+@import url(container.css);
 @import url(nav.css);
 @import url(courses.css);
 @import url(submenu.css);

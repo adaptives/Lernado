@@ -1,6 +1,53 @@
 @charset "utf-8";
 /* CSS Document */
 
+/* v1.0 | 20080212 */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1;
+}
+
+blockquote, q {
+	font-style: italic;
+	background-color: #EEE;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+
+
 body {
     background-color: #f1f1f1;
     background-image:url(../images/background.gif);
@@ -73,58 +120,6 @@ ul {
 }
 
 
-/* > Container
--------------------------------------------------------------- */
-div#container {
-    background: none repeat scroll 0 0 #FFFFFF;
-    border-bottom: 1px solid #E0E0E0;
-    border-radius: 6px 6px 6px 6px;
-    border-right: 1px solid #F1F1F1;
-    overflow: hidden;
-    position: relative;
-    width: 90%;
-	max-width: 1250px;
-    min-width: 960px;
-	margin: 0 auto;
-/*	padding-top:20px;*/
-}
-
-div#content {
-    border-bottom-left-radius: 6px;
-    border-top-left-radius: 6px;
-    float: left;
-    width: 100%;
-}
-
-div#content .padder {
-    border-bottom-left-radius: 6px;
-    border-right: 1px solid #DDDDDD;
-    border-top-left-radius: 6px;
-    margin-right: 225px;
-    padding: 15px;
-    text-align:justify;
-}
-
-
-div#sidebar {
-    background:url(../images/sidebar_back.gif) repeat-x scroll left top transparent;
-    border-left: 1px solid #DDDDDD;
-    border-top-right-radius: 3px;
-    float: left;
-    margin-left: -226px;
-    margin-top: 1px;
-    width: 214px;
-	padding-left:10px;
-	line-height: 150%;
-	font-size:95%;
-	
-}
-
-div#sidebar li {
-    list-style:none;
-}
-
-
 
 a {
     color: #4183C4;
@@ -138,18 +133,4 @@ a:hover{
 p {
     margin: 0 0 20px;
     margin-bottom: 15px;
-}
-
-
-
-/* course category header
--------------------------------------------------------------- */
-
-.course-category-header {
-	margin-top: 10px;
-	padding: 4px; 
-	font-weight: bold; 
-	font-size: 1.4em; 
-	background: url( ../images/box-lighter.png );
-	color: #fff;
 }
