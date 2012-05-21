@@ -1,55 +1,42 @@
 @charset "utf-8";
 /* CSS Document */
-
 /* > Container
 -------------------------------------------------------------- */
 div#container {
-    background: none repeat scroll 0 0 #FFFFFF;
-    border-bottom: 1px solid #E0E0E0;
-    border-radius: 6px 6px 6px 6px;
-    border-right: 1px solid #F1F1F1;
-    overflow: hidden;
-    position: relative;
-    width: 90%;
-	max-width: 1250px;
-    min-width: 960px;
-	margin: 0 auto;
-/*	padding-top:20px;*/
-}
+  background: none repeat scroll 0 0 white;
+  border-bottom: 1px solid #e0e0e0;
+  border-radius: 6px 6px 6px 6px;
+  border-right: 1px solid #f1f1f1;
+  overflow: hidden;
+  position: relative;
+  width: 90%;
+  max-width: 1250px;
+  min-width: 960px;
+  margin: 0 auto; }
 
 div#content {
+  border-bottom-left-radius: 6px;
+  border-top-left-radius: 6px;
+  float: left;
+  width: 100%; }
+  div#content .padder {
     border-bottom-left-radius: 6px;
     border-top-left-radius: 6px;
-    float: left;
-    width: 100%;
-}
-
-div#content .padder {
-    border-bottom-left-radius: 6px;
-    border-right: 1px solid #DDDDDD;
-    border-top-left-radius: 6px;
+    border-right: 1px solid #dddddd;
     margin-right: 225px;
     padding: 15px;
-    text-align:justify;
-}
-
+    text-align: justify; }
 
 div#sidebar {
-    background:url(../images/sidebar_back.gif) repeat-x scroll left top transparent;
-    border-left: 1px solid #DDDDDD;
-    border-top-right-radius: 3px;
-    float: left;
-    margin-left: -226px;
-    margin-top: 1px;
-    width: 214px;
-	padding-left:10px;
-	line-height: 150%;
-	font-size:95%;
-	
-}
-
-div#sidebar li {
-    list-style:none;
-}
-
-
+  background: url(../images/sidebar_back.gif) repeat-x scroll left top transparent;
+  border-left: 1px solid #dddddd;
+  border-top-right-radius: 3px;
+  float: left;
+  margin-left: -226px;
+  margin-top: 1px;
+  width: 214px;
+  padding-left: 10px;
+  line-height: 150%;
+  font-size: 95%; }
+  div#sidebar li {
+    list-style: none; }

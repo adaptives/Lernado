@@ -20,12 +20,12 @@
 
 .course-section-link {
 	color: $course_section_link_color;
-	margin: 5px;	
-}
-
-.course-section-link a {
-	text-decoration: none; 
-	font-size: $course_section_link_font_size;	
+	margin: 5px;
+	
+	a {
+		text-decoration: none; 
+		font-size: $course_section_link_font_size;
+	}	
 }
 
 .course-enrollment {
@@ -33,10 +33,10 @@
     text-decoration: none;
     background: $course_enrollment_bg_color;
     padding: 2px 10px;
-}
-
-.course-enrollment a {
-	text-decoration: none;	
+    
+    a {
+    	text-decoration: none;
+    }
 }
 
 .course-drop {
@@ -44,34 +44,33 @@
     text-decoration: none;
     background: $course_drop_bg_color;
     padding: 2px 10px;
-}
-
-.course-drop a {
-	text-decoration: none;	
+    
+    a {
+    	text-decoration: none;
+    }
 }
 
 /* Recent addition for the current list */
-.grid{
+.grid {
     display: inline;
     float: left;
     margin-right: 10px;
 	position:relative;
-
-}
-
-.grid img{
-    background: $grid_img_bg;
-    border: $grid_img_border;
-    border-radius: $grid_img_border_radius 
-}
 	
-.grid hr{
-    background-color: $grid_hr_bg_color;
-    border: 0 none;
-    color: $grid_hr_fg_color;
-    height: 6px;
-    margin: 5px 0 0px;
-	width:100%;
+	img {
+		background: $grid_img_bg;
+    	border: $grid_img_border;
+    	border-radius: $grid_img_border_radius
+	}
+	
+	hr {
+		background-color: $grid_hr_bg_color;
+	    border: 0 none;
+	    color: $grid_hr_fg_color;
+	    height: 6px;
+	    margin: 5px 0 0px;
+		width:100%;
+	}
 }
 
 .comentwrap{
@@ -101,19 +100,19 @@
 	font-family: $comentwrappost_datetime_font_family;
 }
 	
-.comentwrappost-course{
+.comentwrappost-course {
     color: $comentwrappost_course_fg_color;
     font-size: $comentwrappost_course_font_size;
     font-weight: bold;
 	padding-top: $comentwrappost_course_top_padding;
 	font-family: $comentwrappost_course_font_family;
-}
 	
-.comentwrappost-course img{
-    background: $comentwrappost_course_img_background;
-    border: $comentwrappost_course_img_border;
-    border-radius: $comentwrappost_course_img_border_radius;
-    padding: $comentwrappost_course_img_padding;
+	img {
+		background: $comentwrappost_course_img_background;
+	    border: $comentwrappost_course_img_border;
+	    border-radius: $comentwrappost_course_img_border_radius;
+	    padding: $comentwrappost_course_img_padding;
+	}
 }
 	
 .post-box {

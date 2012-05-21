@@ -1,38 +1,30 @@
-@charset "utf-8";
-
-.logo{
-   float:left;
-   background:url(../images/full_logo.png) no-repeat;
-   height:54px;
-   width:450px; 
-   margin:0px 10px 0px 10px;   
-}
-
+.logo {
+  float: left;
+  background: url(../images/full_logo.png) no-repeat;
+  height: 54px;
+  width: 450px;
+  margin: 0px 10px 0px 10px; }
 
 #header {
-    background-image:url(../images/header.jpg);
-	background-repeat:repeat-x;
-    color: #FFFFFF;
-    height: 88px;
-    position:relative;
-	width:100%;
-	z-index: 1000;
-	direction:ltr;
-	min-width: 960px;
-	left:0;
-	padding-top: 0px;
-	margin-top: 0px;
-}
+  background-image: url(../images/header.jpg);
+  background-repeat: repeat-x;
+  color: white;
+  height: 88px;
+  position: relative;
+  width: 100%;
+  z-index: 1000;
+  direction: ltr;
+  min-width: 960px;
+  left: 0;
+  padding-top: 0px;
+  margin-top: 0px; }
 
 #footer {
-    background: none repeat scroll 0 0 #F1F1F1;
-    font-size: 12px;
-    margin: 20px 0 0;
-    padding: 20px 0 15px;
-    width: 90%;
-}
-#footer .links{    
-	text-align: center;
-	font-size:95%;
-}
-
+  background: none repeat scroll 0 0 #f1f1f1;
+  font-size: 12px;
+  margin: 20px 0 0;
+  padding: 20px 0 15px;
+  width: 90%; }
+  #footer .links {
+    text-align: center;
+    font-size: 9px; }

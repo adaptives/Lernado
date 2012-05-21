@@ -3,6 +3,7 @@
 .pydevproject
 deployment_settings.py
 media/*
+*/staticfiles/css/.sass-cache/*
 
 
 

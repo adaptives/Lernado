@@ -10,24 +10,45 @@
 	list-style: none;
 	max-width: 95%;
 	top:25px;
+	
+	ul {
+		border: $nav_ul_border;
+		-moz-box-shadow: $nav_ul_moz_box_shadow;
+		-webkit-box-shadow: $nav_ul_webkit_box_shadow;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		-moz-border-radius-topleft: 0;
+		-webkit-border-top-left-radius: 0;
+		-moz-border-radius-topright: 0;
+		-webkit-border-top-right-radius: 0;
+		
+		li {
+			ul {
+				-moz-border-radius: 3px;
+				-webkit-border-radius: 3px;
+			}
+		}
+	}
+	
+	li {
+	
+		margin-left: 5px;
+		float: left;
+		
+		li {
+			margin-left: 0;	
+		}
+	
+		a {
+			background: $nav_li_a_background;
+			color: $nav_li_a_color;
+			display: block;
+			padding: 5px 15px;
+			text-decoration: none;	
+		}
+	}
 }
 
-#nav li a {
-	background: $nav_li_a_background;
-	color: $nav_li_a_color;
-	display: block;
-	padding: 5px 15px;
-	text-decoration: none;
-}
-
-#nav li {
-	margin-left: 5px;
-	float: left;
-}
-
-#nav li li {
-	margin-left: 0;
-}
 
 #nav > li > a {
 	-moz-border-radius-topleft: 3px;
@@ -54,21 +75,7 @@
 	position: relative;
 	z-index: 1000;
 }
-#nav ul {
-	border: $nav_ul_border;
-	-moz-box-shadow: $nav_ul_moz_box_shadow;
-	-webkit-box-shadow: $nav_ul_webkit_box_shadow;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	-moz-border-radius-topleft: 0;
-	-webkit-border-top-left-radius: 0;
-	-moz-border-radius-topright: 0;
-	-webkit-border-top-right-radius: 0;
-}
-#nav ul li ul {
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-}
+
 #nav ul,
 #nav .sfhover ul ul,
 #nav :hover ul ul {

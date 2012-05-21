@@ -30,9 +30,9 @@
     margin: $footer_margin;
     padding: $footer_padding;
     width: $footer_width;
-}
-
-#footer .links{
-	text-align: center;
-	font-size: $root_font_size - 3;
+    
+    .links {
+    	text-align: center;
+		font-size: $root_font_size - 3;
+    }
 }
