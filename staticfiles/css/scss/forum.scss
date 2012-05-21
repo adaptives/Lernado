@@ -1,3 +1,4 @@
+@import "globals";
 
 .short-summary {
     border-top: $short_summary_border_top;
@@ -157,6 +158,6 @@
 }
 
 .question-title {
-	font-weight: $question_title_font_weight 
-	font-size: $question_title_font_size	
+	font-weight: $question_title_font_weight; 
+	font-size: $question_title_font_size;
 }

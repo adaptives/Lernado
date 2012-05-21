@@ -136,7 +136,6 @@ $course_category_header_font_size: 1.4em;
 $course_category_header_background: url( ../images/box-lighter.png );
 $course_category_header_fg_color: #fff;
 
-#Forum
 $short_summary_border_top: 1px dotted #CCCCCE;
 $short_summary_width: 700px;
 $short_summary_votes_or_views_color: #666666;
@@ -169,7 +168,7 @@ $head_questions_line_height: 23px;
 $question_body_font_size: 13px;
 $question_body_line_height: 20px;
 $question_body_min_height: 100px;
-$question_body_img_max_width: 640px
+$question_body_img_max_width: 640px;
 $answer_border_bottom: 1px solid #CCCCCE;
 $answer_width: 100%;
 $answer_body_font_size: 13px;
@@ -192,7 +191,7 @@ $question_title_font_size: 120%;
 $nav_li_a_background: url( ../images/box.png );
 $nav_li_a_color: #fff;
 $nav_selected_background: #f5f5f5;
-$nav_selected_color: #555
+$nav_selected_color: #555;
 $nav_ul_li_hover_background: #333;
 $nav_ul_li_hover_color: #fff;
 $nav_ul_border: 1px solid #222;
