@@ -13,5 +13,3 @@
 15. The vote-up image for Question should change when a user has already voted up a question
 16. Add a help link to each markdown textarea
 17. Only courses for a learning group should be shown
-18. Allow participants to register for the course
-19. Allow participants to drop a course
