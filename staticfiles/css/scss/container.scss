@@ -23,16 +23,17 @@ div#content {
     border-top-left-radius: $content_top_left_radius;
     float: left;
     width: 100%;
+    
+    .padder {
+    	border-bottom-left-radius: $padder_bottom_left_radius;
+    	border-top-left-radius: $padder_top_left_radius;
+    	border-right: $padder_right_border;
+    	margin-right: $padder_right_margin;
+    	padding: $padder_padding;
+    	text-align:justify;
+    }
 }
 
-div#content .padder {
-    border-bottom-left-radius: $padder_bottom_left_radius;
-    border-top-left-radius: $padder_top_left_radius;
-    border-right: $padder_right_border;
-    margin-right: $padder_right_margin;
-    padding: $padder_padding;
-    text-align:justify;
-}
 
 div#sidebar {
     background: $sidebar_background;
@@ -46,10 +47,10 @@ div#sidebar {
 	line-height: $sidebar_line-height;
 	font-size: $sidebar_font-size;
 	
+	li {
+		list-style:none;
+	}
 }
 
-div#sidebar li {
-    list-style:none;
-}
 
 
