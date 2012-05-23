@@ -1,4 +1,5 @@
 @import "globals";
+/* Start Forum CSS */
 
 .short-summary {
     border-top: $short_summary_border_top;
@@ -34,7 +35,7 @@
 	    margin: 0 6px 0 0;
 	    padding: 8px 2px 0;
 	    text-align: center;
-	    width: $short_summary_width;	
+	    width: $question_count_width;	
     }
     
     .question-summary-wrapper {
@@ -169,3 +170,5 @@
 	font-weight: $question_title_font_weight; 
 	font-size: $question_title_font_size;
 }
+
+/* End Forum CSS */
