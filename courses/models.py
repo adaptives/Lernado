@@ -9,39 +9,7 @@ import lernado.utils as lutils
 logger = logging.getLogger(__name__)
 
 # Create your models here.
-class Course(models.Model):
-    """
-    A Course model represents courses in the system
-    
-    Doctest
-    >>> effective_java = Course.objects.create(title='Effective Java', contents='Effective Java contents', status='O')
-    
-    >>> effective_java.title
-    'Effective Java'
-    
-    >>> effective_java.contents
-    'Effective Java contents'
-    
-    >>> effective_java.status
-    'O'
-    
-    >>> effective_java.start_date
-    
-    >>> effective_java.end_date
-    
-    >>> effective_java.send_forum_notification
-    False
-    
-    >>> effective_java.send_activity_notification
-    False
-    
-    >>> effective_java.facilitator_notification_strategy
-    0
-    
-    >>> effective_java.verify_enrollment
-    False
-        
-    """
+class Course(models.Model):    
     
     STATUS_CHOICES = (
         ('O', 'Open'),
@@ -63,60 +31,15 @@ class Course(models.Model):
     facilitator_notification_strategy = models.IntegerField(default=0)
     verify_enrollment = models.BooleanField(default=False)
     
-    def has_completed(self, user):
-        """
-        Returns True if the specified user has completed the course and False if not
-        
-        Doctest
-        >>> user1 = User.objects.create(username='joe', password='idontknow')
-        >>> effective_java = Course.objects.create(title='Effective Java', contents='Effective Java contents', status='O')
-        >>> effective_java.completed_by.add(user1)
-        >>> effective_java.has_completed(user1)
-        True
-        
-        >>> user2 = User.objects.create(username='jill', password='idontknow')
-        >>> effective_java.has_completed(user2)
-        False
-        
-        """
+    def has_completed(self, user):        
         completed = Course.objects.filter(completed_by__id=user.id, id=self.id)
         return completed and True or False
         
-    def is_enrolled(self, user):
-        """
-        Returns True if the specified user is enrolled in this course and False if not
-        
-        Doctest
-        >>> user1 = User.objects.create(username='joe1', password='idontknow')
-        >>> effective_java = Course.objects.create(title='Effective Java', contents='Effective Java contents', status='O')
-        >>> effective_java.users.add(user1)
-        >>> effective_java.is_enrolled(user1)
-        True
-                        
-        >>> user2 = User.objects.create(username='jill1', password='idontknow')
-        >>> effective_java.is_enrolled(user2)
-        False
-                
-        """
+    def is_enrolled(self, user):        
         enrolled_course = Course.objects.filter(users__id=user.id, id=self.id)        
         return enrolled_course and True or False
 
-    def is_enrollment_pending(self, user):
-        """
-        Returns True if the specified user's enrollment is pending, and False otherwise
-        
-        Doctest
-        >>> user1 = User.objects.create(username='joe2', password='idontknow')
-        >>> effective_java = Course.objects.create(title='Effective Java', contents='Effective Java contents', status='O')
-        >>> user1_course_app = CourseEnrollApplication.objects.create(user=user1, course=effective_java, status='P')
-        >>> effective_java.is_enrollment_pending(user1)
-        True
-                        
-        >>> user2 = User.objects.create(username='jill2', password='idontknow')
-        >>> effective_java.is_enrollment_pending(user2)
-        False
-                
-        """
+    def is_enrollment_pending(self, user):        
         pending_applications = CourseEnrollApplication.objects.filter(user=user, course=self, status='P')
         return pending_applications and True or False
         
@@ -130,11 +53,11 @@ class CourseEnrollApplication(models.Model):
         ('A', 'Approved'),
         ('R', 'Rejected'),
     )
-    user = models.ForeignKey(User)
-    course = models.ForeignKey(Course)
+    user = models.ForeignKey(User, blank=False)
+    course = models.ForeignKey(Course, blank=False)
     when = models.DateTimeField(default=datetime.datetime.now)
     comment = models.TextField()
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, blank=False)
     changed_by = models.ForeignKey(User, null=True, related_name='changed_by')
     
     def __unicode__(self):
