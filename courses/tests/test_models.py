@@ -65,7 +65,110 @@ class TestCourseModel(TestCase):
         self.assertTrue(effective_java.is_enrollment_pending(user1))
         
         user2 = User.objects.create(username='jill', password='idontknow')
-        effective_java.is_enrollment_pending(user2)
+        self.assertFalse(effective_java.is_enrollment_pending(user2))
         
         
+        
+class TestCourseEnrollApplication(TestCase):
+    
+    
+    def setUp(self):
+        super(TestCourseEnrollApplication, self).setUp()
+        
+    
+    def tearDown(self):
+        super(TestCourseEnrollApplication, self).tearDown()
+        
+    
+    def test_successfull_instantiation(self):
+        user1 = User.objects.create(username='joe', password='idontknow')
+        effective_java = Course.objects.create(title='Effective Java', contents='Effective Java contents', status='O')
+        course_enroll_application = CourseEnrollApplication.objects.create(user=user1, course=effective_java, comment='no comments', status='P')
+        self.assertEqual(CourseEnrollApplication.objects.count(), 1)            
+        
+    
+    def test_instantiation_user_required(self):
+        effective_java = Course.objects.create(title='Effective Java', contents='Effective Java contents', status='O')
+        try:
+            course_enroll_application = CourseEnrollApplication.objects.create(course=effective_java, comment='no comments', status='P')
+            self.fail('Was expecting an Exception to be raised when we create a CourseEnrollApplication without any fields')
+        except:
+            pass
+        
+    
+    def test_instantiation_course_required(self):
+        user1 = User.objects.create(username='joe', password='idontknow')
+        try:
+            course_enroll_application = CourseEnrollApplication.objects.create(user=user1, comment='no comments', status='P')
+            self.fail('Was expecting an Exception to be raised when we create a CourseEnrollApplication without any fields')
+        except:
+            pass
+        
+    
+    def test_instantiation_status_required(self):
+        user1 = User.objects.create(username='joe', password='idontknow')
+        effective_java = Course.objects.create(title='Effective Java', contents='Effective Java contents', status='O')
+        try:
+            course_enroll_application = CourseEnrollApplication.objects.create(course=effective_java, comment='no comments')
+            self.fail('Was expecting an Exception to be raised when we create a CourseEnrollApplication without any fields')
+        except:
+            pass
+    
+    def test_approving_course_enroll_application(self):
+        #create object
+        user1 = User.objects.create(username='joe', password='idontknow')
+        effective_java = Course.objects.create(title='Effective Java', contents='Effective Java contents', status='O')
+        course_enroll_application = CourseEnrollApplication.objects.create(user=user1, course=effective_java, comment='no comments', status='P')
+        #change status
+        course_enroll_application_retreived = CourseEnrollApplication.objects.get(user=user1)
+        self.assertIsNotNone(course_enroll_application_retreived)
+        course_enroll_application_retreived.status = 'A'
+        course_enroll_application_retreived.save()
+        
+        #retrieve and verify new status
+        course_enroll_application_retreived_1 = CourseEnrollApplication.objects.get(user=user1, status='A')
+        self.assertIsNotNone(course_enroll_application_retreived_1)
+        
+        
+class TestCourseDropApplication(TestCase):
+    
+    
+    def setUp(self):
+        super(TestCourseDropApplication, self).setUp()
+        
+    
+    def tearDown(self):
+        super(TestCourseDropApplication, self).tearDown()
+        
+    
+    def test_successfull_creation(self):
+        #create
+        user1 = User.objects.create(username='joe', password='idontknow')
+        effective_java = Course.objects.create(title='Effective Java', contents='Effective Java contents', status='O')
+        course_drop_application = CourseDropApplication.objects.create(user=user1, course=effective_java)
+        #retrieve
+        course_drop_application_retrieved = CourseDropApplication.objects.get(user=user1, course=effective_java)
+        self.assertIsNotNone(course_drop_application)
+    
+    
+    def test_creation_user_required(self):
+        #create
+        effective_java = Course.objects.create(title='Effective Java', contents='Effective Java contents', status='O')
+        try:
+            course_drop_application = CourseDropApplication.objects.create(course=effective_java)
+            self.fail('Expected Exception when adding a CourseDropApplication without a user')
+        except:
+            pass
+        
+    
+    def test_creation_course_required(self):
+        #create
+        user1 = User.objects.create(username='joe', password='idontknow')        
+        try:
+            course_drop_application = CourseDropApplication.objects.create(user=user1)
+            self.fail('Expected Exception when adding a CourseDropApplication without a user')
+        except:
+            pass
+        
+    
         

@@ -53,11 +53,11 @@ class CourseEnrollApplication(models.Model):
         ('A', 'Approved'),
         ('R', 'Rejected'),
     )
-    user = models.ForeignKey(User, blank=False)
-    course = models.ForeignKey(Course, blank=False)
+    user = models.ForeignKey(User)
+    course = models.ForeignKey(Course)
     when = models.DateTimeField(default=datetime.datetime.now)
     comment = models.TextField()
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, blank=False)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES)
     changed_by = models.ForeignKey(User, null=True, related_name='changed_by')
     
     def __unicode__(self):
