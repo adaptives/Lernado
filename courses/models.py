@@ -98,16 +98,11 @@ class Question(models.Model):
         
     def visit(self, user):
         try:
-            already_visited = QuestionVisit.objects.get(user=user, question=self)
+            (not self.user == user) and QuestionVisit.objects.get(user=user, question=self)
         except ObjectDoesNotExist:
-            visit = QuestionVisit(user=user, question=self)
-            visit.save()
+            QuestionVisit.objects.create(user=user, question=self)
+                        
         
-    def humanized_when(self):
-        #TODO: This method may not be used
-        h = lutils.humanizeTimeDiff(self.when)
-        return h
-
     def __unicode__(self):
         return self.title
 
@@ -162,10 +157,10 @@ class ActivityResponse(models.Model):
 
     def visited(self, user):
         try:
-            already_visited = ActivityResponseVisit.objects.get(user=user, activity_response=self)
+            (not self.user == user) and ActivityResponseVisit.objects.get(user=user, activity_response=self)
         except ObjectDoesNotExist:
-            visit = ActivityResponseVisit(user=user, activity_response=self)
-            visit.save()
+            ActivityResponseVisit.objects.create(user=user, activity_response=self)
+            
     
     def reviewed_by(self, user):
         reviews_by_user = ActivityResponseReview.objects.filter(activity_response__id=self.id, user__id=user.id).count()
@@ -201,6 +196,10 @@ class CreditableAction(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField()
     creditss = models.IntegerField()
+    
+    def __unicode__(self):
+        return "Creditable action : '%s'" % self.title
+    
     
 class Credit(models.Model):
     user = models.ForeignKey(User)

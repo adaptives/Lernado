@@ -310,7 +310,57 @@ class TestQuestion(TestCase):
         
         #Verify answer count
         self.assertEqual(question.answer_count(), 3)
-    
+        
+        
+    def test_visit_by_user_for_the_first_time_who_did_not_post_question(self):
+        #Create Question 
+        effective_java = Course.objects.create(title='Effective Java', contents='Effective Java contents', status='O')
+        user1 = User.objects.create(username='joe', password='idontknow')        
+        title = 'Sample question'
+        contents='This is a sample question for testing'
+        question = Question.objects.create(user=user1, course=effective_java, title=title, contents=contents)
+        
+        #Visit
+        user2 = User.objects.create(username='jill', password='idontknow')
+        question.visit(user2)
+        question_visit = QuestionVisit.objects.all()
+        self.assertIsNotNone(question_visit)
+        self.assertEqual(question_visit.count(), 1)
+        
+        
+    def test_subsequent_visit_by_user_who_did_not_post_question(self):
+        #Create Question 
+        effective_java = Course.objects.create(title='Effective Java', contents='Effective Java contents', status='O')
+        user1 = User.objects.create(username='joe', password='idontknow')        
+        title = 'Sample question'
+        contents='This is a sample question for testing'
+        question = Question.objects.create(user=user1, course=effective_java, title=title, contents=contents)
+        
+        #Visit
+        user2 = User.objects.create(username='jill', password='idontknow')
+        question.visit(user2)
+        question_visit = QuestionVisit.objects.all()        
+        self.assertEqual(question_visit.count(), 1)
+        
+        question.visit(user2)
+        question_visit = QuestionVisit.objects.all()        
+        self.assertEqual(question_visit.count(), 1)
+        
+        
+    def test_visit_by_user_who_posted_the_question(self):
+        #Create Question 
+        effective_java = Course.objects.create(title='Effective Java', contents='Effective Java contents', status='O')
+        user1 = User.objects.create(username='joe', password='idontknow')        
+        title = 'Sample question'
+        contents='This is a sample question for testing'
+        question = Question.objects.create(user=user1, course=effective_java, title=title, contents=contents)
+        
+        #Visit        
+        question.visit(user1)
+        question_visit = QuestionVisit.objects.all()        
+        self.assertEqual(question_visit.count(), 0)        
+        
+        
 
 class TestAnswer(TestCase):
     
@@ -616,6 +666,32 @@ class TestActivityResponse(TestCase):
         #Verify
         user3 = User.objects.create(username='uday', password='idontknow')
         self.assertFalse(activity_response.reviewed_by(user3))
+        
+        
+    def test_visit_by_user_who_did_not_submit_response(self):
+        #Create 
+        user1 = User.objects.create(username='joe', password='idontknow')
+        effective_java = Course.objects.create(title='Effective Java', contents='Effective Java contents', status='O')
+        activity = Activity.objects.create(course=effective_java, placement=1, title='Activity 1', contents='Contents for activity 1')
+        activity_response = ActivityResponse.objects.create(user=user1, activity=activity, contents='this is my response')
+        
+        #Visit
+        user2 = User.objects.create(username='jill', password='idontknow')
+        activity_response.visited(user2)
+        self.assertEqual(1, ActivityResponseVisit.objects.filter(activity_response=activity_response).count())
+        
+        
+    def test_visit_by_user_who_submitted_the_response(self):
+        #Create 
+        user1 = User.objects.create(username='joe', password='idontknow')
+        effective_java = Course.objects.create(title='Effective Java', contents='Effective Java contents', status='O')
+        activity = Activity.objects.create(course=effective_java, placement=1, title='Activity 1', contents='Contents for activity 1')
+        activity_response = ActivityResponse.objects.create(user=user1, activity=activity, contents='this is my response')
+        
+        #Visit        
+        activity_response.visited(user1)
+        self.assertEqual(0, ActivityResponseVisit.objects.filter(activity_response=activity_response).count())
+    
         
     
 class TestActivityResponseReview(TestCase):
