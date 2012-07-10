@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.core.exceptions import ObjectDoesNotExist
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
@@ -12,7 +13,14 @@ class UserProfile(models.Model):
     
 
 def create_user_profile(sender, instance, created, **kwargs):
-    if created:
+    try:
+        """
+        When a user profile is created, the User object is updated, which
+        causes the signal to be send once again and as a result this function
+        will also be called.
+        """
+        UserProfile.objects.get(user=instance)
+    except ObjectDoesNotExist:
         UserProfile.objects.create(user=instance)
 
 post_save.connect(create_user_profile, sender=User)
